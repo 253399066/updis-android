@@ -268,4 +268,14 @@
         <item name="android:orientation">horizontal</item>
     </style>
 
+    <style name="project_info_into_layout">
+        <item name="android:background">@layout/project_bg</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_marginLeft">@dimen/margin_horizontal</item>
+        <item name="android:minHeight">@dimen/normal_height</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginRight">@dimen/margin_horizontal</item>
+        <item name="android:layout_marginTop">@dimen/margin_vertical</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
 </resources>

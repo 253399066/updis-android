@@ -94,4 +94,19 @@
             android:id="@+id/projectScale"
             style="@style/project_info_right" />
     </RelativeLayout>
+    <RelativeLayout android:clickable="true" android:onClick="btn_shake" style="@style/project_info_into_layout"  >
+
+        <TextView
+            android:text="@string/projectActiveTask"
+            style="@style/project_info_left" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/project_info_right"
+            android:scaleType="matrix"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/mm_submenu_normal" />
+    </RelativeLayout>
 </LinearLayout>

@@ -5,72 +5,89 @@ import java.io.Serializable;
 /**
  * Created by lm3515 on 14-1-22.
  */
-public class ProjectModel implements Serializable{
-    //{"projectId":3489,"projectNumber":"2345","projectName":"其实地方规划局考虑",
-    // "partyAName":"shen深圳市龙岗政府采购中心","designDepartment":"院部",
-    // "projectLeaders":["贝思琪","丁年","丁淑芳"],"projectScale":"sss"}
-    private String projectId;
-    private String projectNumber;
+public class ProjectModel implements Serializable {
+	// {"projectId":3489,"projectNumber":"2345","projectName":"其实地方规划局考虑",
+	// "partyAName":"shen深圳市龙岗政府采购中心","designDepartment":"院部",
+	// "projectLeaders":["贝思琪","丁年","丁淑芳"],"projectScale":"sss"}
+	private String projectId;
+	private String projectNumber;
+    private String activeTaskId;
+    private String imported;
+	public String getActiveTaskId() {
+		return activeTaskId;
+	}
 
-    public String getProjectId() {
-        return projectId;
-    }
+	public void setActiveTaskId(String activeTaskId) {
+		this.activeTaskId = activeTaskId;
+	}
 
-    public void setProjectId(String projectId) {
-        this.projectId = projectId;
-    }
+	public String getImported() {
+		return imported;
+	}
 
-    public String getProjectNumber() {
-        return projectNumber;
-    }
+	public void setImported(String imported) {
+		this.imported = imported;
+	}
 
-    public void setProjectNumber(String projectNumber) {
-        this.projectNumber = projectNumber;
-    }
+	public String getProjectId() {
+		return projectId;
+	}
 
-    public String getProjectName() {
-        return projectName;
-    }
+	public void setProjectId(String projectId) {
+		this.projectId = projectId;
+	}
 
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
+	public String getProjectNumber() {
+		return projectNumber;
+	}
 
-    public String getPartyAName() {
-        return partyAName;
-    }
+	public void setProjectNumber(String projectNumber) {
+		this.projectNumber = projectNumber;
+	}
 
-    public void setPartyAName(String partyAName) {
-        this.partyAName = partyAName;
-    }
+	public String getProjectName() {
+		return projectName;
+	}
 
-    public String getDesignDepartment() {
-        return designDepartment;
-    }
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
 
-    public void setDesignDepartment(String designDepartment) {
-        this.designDepartment = designDepartment;
-    }
+	public String getPartyAName() {
+		return partyAName;
+	}
 
-    public String getProjectLeaders() {
-        return projectLeaders;
-    }
+	public void setPartyAName(String partyAName) {
+		this.partyAName = partyAName;
+	}
 
-    public void setProjectLeaders(String projectLeaders) {
-        this.projectLeaders = projectLeaders;
-    }
+	public String getDesignDepartment() {
+		return designDepartment;
+	}
 
-    public String getProjectScale() {
-        return projectScale;
-    }
+	public void setDesignDepartment(String designDepartment) {
+		this.designDepartment = designDepartment;
+	}
 
-    public void setProjectScale(String projectScale) {
-        this.projectScale = projectScale;
-    }
+	public String getProjectLeaders() {
+		return projectLeaders;
+	}
 
-    private String projectName;
-    private String partyAName;
-    private String designDepartment;
-    private String projectLeaders;
-    private String projectScale;
+	public void setProjectLeaders(String projectLeaders) {
+		this.projectLeaders = projectLeaders;
+	}
+
+	public String getProjectScale() {
+		return projectScale;
+	}
+
+	public void setProjectScale(String projectScale) {
+		this.projectScale = projectScale;
+	}
+
+	private String projectName;
+	private String partyAName;
+	private String designDepartment;
+	private String projectLeaders;
+	private String projectScale;
 }

@@ -13,6 +13,7 @@ public class Constant {
     public static final String UPDIS_STORE_KEY_PLAINTEXTPASSWORD = "updis_store_key_plaintextpassword";
     public static final String INTERFACE_FETCH_PROJECTLIST = "/project/getPendingProjects";
     public static final String EXTRA_PROJECTMODEL = "extraProjectModel";
+    //public static final String EXTRA_ACTIVE_TASK = "extraActiveTask";
     public static final String VIEW_PROJECT_LIST = "15";
     public static String COOKIES = "";
     /**
@@ -244,7 +245,7 @@ public class Constant {
     public static final String UPDIS_DIC_KEY_SUBJECT = "subject_key";
 
     //debug 8081 product 8010
-    public static final String MAIN_DOMAIN = "http://phone.updis.cn:8010/rest";
+    public static final String MAIN_DOMAIN = "http://phone.updis.cn:8081/rest";
 
     /**
      * 列表数据接口
@@ -306,6 +307,10 @@ public class Constant {
      */
     public static final String INTERFACE_ABOUT = "/settings/about";
 
+    /**
+     * 项目下达单接口
+     */
+    public static final String INTERFACE_FETCH_ACTIVETASK = "/project/getActiveTask";
 
     /**
      * Preferences Key : load image or not

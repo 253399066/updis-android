@@ -30,19 +30,18 @@
 
     <!-- 我的信息顶部导航 -->
     <string-array name="myinfo_tab_text">
-        <!--<item>密码修改</item>-->
-        <!--<item>个人信息</item>-->
+
+        <!-- <item>密码修改</item> -->
+        <!-- <item>个人信息</item> -->
         <item>发布信息</item>
         <item>我发布的</item>
-
     </string-array>
-
     <string-array name="projectlist_tab_text">
-        <!--<item>密码修改</item>-->
-        <!--<item>个人信息</item>-->
+
+        <!-- <item>密码修改</item> -->
+        <!-- <item>个人信息</item> -->
         <item>待处理项目</item>
     </string-array>
-
 
     <string name="setting_push_title">消息推送:</string>
     <string name="setting_push_title_notice">通知</string>
@@ -85,17 +84,12 @@
     <string name="updis_login_logingerror_title">登录失败</string>
     <string name="updis_login_tips_vercode">验证码不能为空</string>
     <string name="updis_login_progress_tips">正在请求服务器...</string>
-
-
     <string name="updis_sendmsg_tips_category">请选择分类</string>
     <string name="updis_sendmsg_tips_title">标题不能为空</string>
     <string name="updis_sendmsg_tips_content">内容不能为空</string>
-
     <string name="updis_service_error_title">服务器连接出错</string>
     <string name="updis_service_error_tip">服务器暂时无法连接,请稍后在试</string>
-
     <string name="updis_need_reg">您没有登记手机号码,请登录内网个人信息修改页面添加手机号码后再登录.</string>
-
     <string name="set_network">设置网络</string>
     <string name="updis_network_error_title">无可用网络</string>
     <string name="updis_network_error_tip">对不起，当前没有检测到可用网络，请重新连接或稍后再试！</string>
@@ -110,7 +104,6 @@
     <string name="updis_changepwd_newpwd_tips">新密码不能为空</string>
     <string name="updis_changepwd_newpwd2_tips">请重复新密码</string>
     <string name="updis_changepwd_newpwderror_tips">新密码2次输入不一致</string>
-
     <string name="updis_person_detail_dept">所在部门:</string>
     <string name="updis_person_detail_birthday">出生日期:</string>
     <string name="updis_person_detail_gender">性别:</string>
@@ -126,15 +119,10 @@
     <string name="updis_person_detail_homeNum">家庭电话:</string>
     <string name="updis_person_detail_mail">电子邮件:</string>
     <string name="updis_person_detail_resume">个人简历:</string>
-
-
     <string name="updis_send_msg_category">分类:</string>
     <string name="updis_send_msg_title">标题:</string>
     <string name="updis_send_msg_content">内容:</string>
     <string name="updis_send_msg_dept">部门:</string>
-
-
-
     <string name="updis_anonymous">匿名</string>
 
     <!-- 推荐宝典顶部导航的数组 -->
@@ -477,9 +465,7 @@
     <string name="aide_title_recent">常用软件</string>
     <string name="aide_title_tips">我的消息</string>
     <string name="aide_title_feedback">客户服务</string>
-    <string name="aide_feedback_tip">请输入您要反馈的问题：
-        <font color="#00FF00">(100个汉字以内)</font>
-    </string>
+    <string name="aide_feedback_tip">请输入您要反馈的问题：<font color="#00FF00">(100个汉字以内)</font></string>
     <string name="aide_feedback_ok">提交问题</string>
     <string name="aide_recent_tip">最近使用软件，点击打开</string>
     <string name="click_detail">点击详情</string>
@@ -513,6 +499,36 @@
     <string name="designDepartment">设计部门</string>
     <string name="project_leaders">项目负责人</string>
     <string name="projectScale">项目规模</string>
+    <string name="projectActiveTask">项目下达单</string>
     <string name="version_maohao">版本:%1$s</string>
+
+    <!-- 项目下达单 BEGIN -->
+    <string name="partner">甲方</string>
+    <string name="partnerType">甲方类型</string>
+    <string name="customerContact">甲方联系人</string>
+    <string name="guimo">规模</string>
+    <string name="yaoQiuXingChengWenJian">顾客要求形成文件否</string>
+    <string name="sjyqsfddgd">设计要求是否得到规定</string>
+    <string name="shiFouTouBiao">是否投标</string>
+    <string name="touBiaoLeiBie">投标类别</string>
+    <string name="expressRequirement">明示要求</string>
+    <string name="yinHanYaoQiu">隐含要求</string>
+    <string name="diFangFaGui">地方法规</string>
+    <string name="fuJiaYaoQiu">附加要求</string>
+    <string name="heTongYiZhi">合同一致</string>
+    <string name="manZuYaoQiu">本院是否有能力满足规定要求</string>
+    <string name="ziYuanManZu">资源满足</string>
+    <string name="sheBeiManZu">设备满足</string>
+    <string name="gongQiManZu">工期满足</string>
+    <string name="sheJiFeiManZu">设计费满足</string>
+    <string name="qiTa">其它</string>
+    <string name="shiFouWaiBao">是否外包</string>
+    <string name="shiZhengPeiTao">市政配套</string>
+    <string name="duoFangHeTong">多方合同</string>
+    <string name="directorReviewer">评审人评审时间</string>
+    <string name="directorReviewerApplyTime">评审时间</string>
+    <string name="showButton">不显示所长审批按钮</string>
+    <string name="no_active_task">没有项目下达单</string>
+    <!-- 项目下达单 END -->
 
 </resources>

@@ -1,9 +1,20 @@
 
 package com.tianv.updis.network;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Context;
 
 import com.tianv.updis.Constant;
+import com.tianv.updis.model.ActiveTaskModel;
 import com.tianv.updis.model.CommentModel;
 import com.tianv.updis.model.DictionaryModel;
 import com.tianv.updis.model.JsonConst;
@@ -17,16 +28,6 @@ import com.tianv.updis.network.CollectResource.PageFetcher;
 import com.uucun.android.data.query.Select;
 import com.uucun.android.data.util.Log;
 import com.uucun.android.utils.date.DateUtil;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * @author Melvin
@@ -119,6 +120,88 @@ public class JsonDataParser {
         return loginDataModel;
     }
 
+    public ActiveTaskModel getActiveTaskData(String json) throws JSONException {
+        if (json == null || json.trim().equals("")) {
+            return null;
+        }
+        ActiveTaskModel activeTaskModel = new ActiveTaskModel();
+        try {
+
+            JSONObject jsonObject = new JSONObject(json);
+            jsonObject =  jsonObject.getJSONObject("data");
+            /** 开始解析 **/
+            if (jsonObject.has("partner")) {
+            	activeTaskModel.setPartner( jsonObject.getString("partner"));
+            }
+            if (jsonObject.has("partnerType")) {
+            	activeTaskModel.setPartnerType(jsonObject.getString("partnerType"));
+            }
+            if (jsonObject.has("customerContact")) {
+            	activeTaskModel.setCustomerContact(jsonObject.getString("customerContact"));
+            }
+            if (jsonObject.has("guiMo")) {
+            	activeTaskModel.setGuimo( jsonObject.getString("guiMo"));
+            }
+            if (jsonObject.has("yaoQiuXingChengWenJian")) {
+            	activeTaskModel.setYaoQiuXingChengWenJian(jsonObject.getString("yaoQiuXingChengWenJian"));
+            }
+            if (jsonObject.has("shiFouTouBiao")) {
+            	activeTaskModel.setShiFouTouBiao( jsonObject.getString("shiFouTouBiao"));
+            }
+            if (jsonObject.has("touBiaoLeiBie")) {
+            	activeTaskModel.setTouBiaoLeiBie( jsonObject.getString("touBiaoLeiBie"));
+            }
+            if (jsonObject.has("expressRequirement")) {
+            	activeTaskModel.setExpressRequirement( jsonObject.getString("expressRequirement"));
+            }
+            if (jsonObject.has("yinHanYaoQiu")) {
+            	activeTaskModel.setYinHanYaoQiu( jsonObject.getString("yinHanYaoQiu"));
+            }
+            if (jsonObject.has("diFangFaGui")) {
+            	activeTaskModel.setDiFangFaGui( jsonObject.getString("diFangFaGui"));
+            }
+            if (jsonObject.has("fuJiaYaoQiu")) {
+            	activeTaskModel.setFuJiaYaoQiu( jsonObject.getString("fuJiaYaoQiu"));
+            }
+            if (jsonObject.has("heTongYiZhi")) {
+            	activeTaskModel.setHeTongYiZhi( jsonObject.getString("heTongYiZhi"));
+            }
+            if (jsonObject.has("ziYuanManZu")) {
+            	activeTaskModel.setZiYuanManZu( jsonObject.getString("ziYuanManZu"));
+            }
+            if (jsonObject.has("sheBeiManZu")) {
+            	activeTaskModel.setSheBeiManZu( jsonObject.getString("sheBeiManZu"));
+            }
+            if (jsonObject.has("gongQiManZu")) {
+            	activeTaskModel.setGongQiManZu( jsonObject.getString("gongQiManZu"));
+            }
+            if (jsonObject.has("sheJiFeiManZu")) {
+            	activeTaskModel.setSheJiFeiManZu( jsonObject.getString("sheJiFeiManZu"));
+            }
+            if (jsonObject.has("shiFouWaiBao")) {
+            	activeTaskModel.setShiFouWaiBao(jsonObject.getString("shiFouWaiBao"));
+            }
+            if (jsonObject.has("shiZhengPeiTao")) {
+            	activeTaskModel.setShiZhengPeiTao( jsonObject.getString("shiZhengPeiTao"));
+            }
+            if (jsonObject.has("duoFangHeTong")) {
+            	activeTaskModel.setDuoFangHeTong(jsonObject.getString("duoFangHeTong"));
+            }
+            if (jsonObject.has("directorReviewer")) {
+            	activeTaskModel.setDirectorReviewer( jsonObject.getString("directorReviewer"));
+            }
+            if (jsonObject.has("directorReviewerApplyTime")) {
+            	activeTaskModel.setDirectorReviewerApplyTime(jsonObject.getString("directorReviewerApplyTime"));
+            }
+            if (jsonObject.has("showButton")) {
+            	activeTaskModel.setShowButton( jsonObject.getString("showButton"));
+            }
+        } catch (JSONException e) {
+            throw e;
+        }
+        return activeTaskModel;
+    }
+    
     public void getDictData(String json) throws JSONException {
         // TODO Auto-generated method stub
         if (json == null || json.trim().equals("")) {
@@ -517,6 +600,7 @@ public class JsonDataParser {
                     pm.setProjectNumber(getStringValue(pjo, "projectNumber"));
                     pm.setProjectName(getStringValue(pjo, "projectName"));
                     pm.setPartyAName(getStringValue(pjo, "partyAName"));
+                    
 //                    String partyNames[] = pm.getPartyAName().split(",");
 //                    for (int j = 0; j < partyNames.length; j++) {
 //
@@ -533,6 +617,8 @@ public class JsonDataParser {
                     }
 //                    pm.setProjectLeaders(getStringValue(pjo, "projectLeaders"));
                     pm.setProjectScale(getStringValue(pjo, "projectScale"));
+                    pm.setActiveTaskId(getStringValue(pjo, "activeTaskId"));
+                    pm.setImported(getStringValue(pjo, "imported"));
                     arrayList.add(pm);
                 }
             }

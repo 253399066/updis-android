@@ -137,6 +137,11 @@
             android:name="com.tianv.updis.activity.SettingActivity"
             android:configChanges="keyboardHidden|keyboard|orientation"
             android:label="@string/app_name"></activity>
+        
+        <activity
+            android:name="com.tianv.updis.activity.ActiveTaskActivity"
+            android:configChanges="keyboardHidden|keyboard|orientation"
+            android:label="@string/app_name"></activity>
 
         <!-- Required SDK核心功能 -->
         <activity

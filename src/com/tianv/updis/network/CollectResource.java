@@ -1,11 +1,21 @@
 
 package com.tianv.updis.network;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Map;
+
+import org.json.JSONException;
+
 import android.app.Activity;
 import android.content.Context;
 
 import com.tianv.updis.AppException;
 import com.tianv.updis.Constant;
+import com.tianv.updis.model.ActiveTaskModel;
 import com.tianv.updis.model.CommentModel;
 import com.tianv.updis.model.DictionaryModel;
 import com.tianv.updis.model.LoginDataModel;
@@ -23,15 +33,6 @@ import com.uucun.android.uunetwork.exception.ConnectionException;
 import com.uucun.android.uunetwork.httptools.RequestParams;
 import com.uucun.android.uunetwork.model.ConnectionType;
 import com.uucun.android.uunetwork.model.RequestType;
-
-import org.json.JSONException;
-
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * @author Melvin
@@ -771,5 +772,42 @@ public class CollectResource {
             e.printStackTrace();
         }
         return null;
+    }
+    
+    /**
+     * 抓取任务下达单数据
+     */
+    public ActiveTaskModel fetchActiveTaskData(String taskId) throws AppException {
+        String result = null;
+        String url = null;
+        try {
+            UUNetWorkServer uunetWorkServer = new UUNetWorkServer(mContext, ConnectionType.URLCON);
+
+            String firstCookie = sharedStore.getString("login_cookies", "");
+            uunetWorkServer.addHeader("Cookie", firstCookie);
+            uunetWorkServer.setRequestType(RequestType.GET);
+            url = Constant.MAIN_DOMAIN + Constant.INTERFACE_FETCH_ACTIVETASK + "?id=" + taskId;
+            String[] results = uunetWorkServer.startSynchronous(url);
+            if (results != null) {
+                Logger.d("UrlconPostStreamsynTest code ", results[0]);
+                Logger.d("UrlconPostStreamsynTest content ", results[1]);
+                result = results[1];
+            }
+            if (result == null) {
+                return null;
+            }
+            return  jsonDataParser.getActiveTaskData(result);
+
+        } catch (ConnectionException e) {
+            throw new AppException(AppException.CONNECTION_CMS_ERROR_CODE, e.getMessage());
+        } catch (JSONException e) {
+            if (result.contains("sessionTimeout")) {
+                throw new AppException(AppException.LOGIN_TIME_OUT, e.getMessage());
+            } else {
+                throw new AppException(AppException.PARSE_DATA_ERROR_CODE, e.getMessage());
+            }
+        } catch (Exception e) {
+            throw new AppException(AppException.UN_KNOW_ERROR_CODE, e.getMessage());
+        }
     }
 }
