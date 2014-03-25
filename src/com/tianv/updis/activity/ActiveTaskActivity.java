@@ -127,7 +127,7 @@ public class ActiveTaskActivity extends Activity {
 			return "-";
 		}
 		else {
-			return value;
+			return value;   
 		}
 	}
 	public String getNotBlankBoolean(String value){
