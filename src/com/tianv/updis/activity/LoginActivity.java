@@ -354,6 +354,8 @@ public class LoginActivity extends Activity implements OnClickListener {
                                 userPwd);
                         mSharedStore.putString(Constant.UPDIS_STORE_KEY_ISSPECIALUSER,
                                 eParam.isSpecailUser);
+                        mSharedStore.putString(Constant.UPDIS_STORE_KEY_CANVIEWTENDER,
+                                eParam.canViewTender);
                         message.obj = eParam;
                         message.sendToTarget();
                         return;

@@ -35,6 +35,8 @@ public class JsonConst {
 
     //isSpecialUser
     public static String UPDIS_JSON_ISSPECAILUSER = "isSpecialUser";
+    
+    public static String UPDIS_JSON_CANVIEWTENDER = "canViewTender";
     /**
      * *************** 数据字典JSON处理常量 **************************
      */

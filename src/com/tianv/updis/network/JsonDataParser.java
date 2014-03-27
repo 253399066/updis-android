@@ -113,6 +113,9 @@ public class JsonDataParser {
             if (jsonObject.has(JsonConst.UPDIS_JSON_ISSPECAILUSER)) {
                 loginDataModel.isSpecailUser = jsonObject.getString(JsonConst.UPDIS_JSON_ISSPECAILUSER);
             }
+            if (jsonObject.has(JsonConst.UPDIS_JSON_CANVIEWTENDER)) {
+                loginDataModel.canViewTender = jsonObject.getString(JsonConst.UPDIS_JSON_CANVIEWTENDER);
+            }
 
         } catch (JSONException e) {
             throw e;

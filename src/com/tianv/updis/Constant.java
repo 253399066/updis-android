@@ -190,6 +190,8 @@ public class Constant {
     public static final String UPDIS_STORE_KEY_USERPWD = "updis_store_key_userpwd";
 
     public static final String UPDIS_STORE_KEY_ISSPECIALUSER = "updis_store_key_isspecialuser";
+    
+    public static final String UPDIS_STORE_KEY_CANVIEWTENDER = "updis_store_key_canViewTender";
 
     /**
      * PUSH通知信息

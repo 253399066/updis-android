@@ -117,6 +117,8 @@ public class SettingActivity extends BaseActivity implements OnClickListener,
             mCheckProject.setVisibility(View.VISIBLE);
 
         }
+        
+       
 
         mRadioGroup = (RadioGroup) findViewById(R.id.radio_group_push_time);
         mRadioGroup.setOnCheckedChangeListener(mChangeRadio);

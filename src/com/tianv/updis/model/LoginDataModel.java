@@ -24,4 +24,7 @@ public class LoginDataModel {
 //    1 可以.
 
     public String isSpecailUser;
+    
+    public String canViewTender;
+    
 }

@@ -108,6 +108,7 @@ public class ActiveTaskActivity extends Activity implements OnClickListener{
                 }
             	MessageDialog mDialog = new MessageDialog(ActiveTaskActivity.this);
                 if ("1".equals(eParam)) {
+                	initView();
                 	mDialog.showInfo("所长审核",
                             "提交成功");
                 }
@@ -174,7 +175,7 @@ public class ActiveTaskActivity extends Activity implements OnClickListener{
                 	duoFangHeTong.setText(getNotBlankBoolean(eParam.getDuoFangHeTong()));//是 否
                 	directorReviewer.setText(getNotBlank(eParam.getDirectorReviewer()));
                 	directorReviewerApplyTime.setText(getNotBlank(eParam.getDirectorReviewerApplyTime()));
-                	if("1".equals(eParam.getShowButton())){
+                	if("0".equals(eParam.getShowButton())){
                 		suozhangAudit.setVisibility(View.INVISIBLE) ;
                 	}
                 	//showButton; // String 0: 不显示所长审批按钮; 1:显示
