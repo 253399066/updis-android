@@ -313,6 +313,11 @@ public class Constant {
     public static final String INTERFACE_FETCH_ACTIVETASK = "/project/getActiveTask";
 
     /**
+     * 所长审批
+     */
+    public static final String INTERFACE_REVIEW_ACTIVETASK = "/project/reviewActiveTask";
+    
+    /**
      * Preferences Key : load image or not
      */
     public static final String KEY_NO_IMAGE = "no_load_image_key";

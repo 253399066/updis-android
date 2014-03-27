@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
@@ -798,6 +799,47 @@ public class CollectResource {
             }
             return  jsonDataParser.getActiveTaskData(result);
 
+        } catch (ConnectionException e) {
+            throw new AppException(AppException.CONNECTION_CMS_ERROR_CODE, e.getMessage());
+        } catch (JSONException e) {
+            if (result.contains("sessionTimeout")) {
+                throw new AppException(AppException.LOGIN_TIME_OUT, e.getMessage());
+            } else {
+                throw new AppException(AppException.PARSE_DATA_ERROR_CODE, e.getMessage());
+            }
+        } catch (Exception e) {
+            throw new AppException(AppException.UN_KNOW_ERROR_CODE, e.getMessage());
+        }
+    }
+    
+    /**
+     * 抓取任务下达单数据
+     */
+    public String reviewActiveTask(String taskId) throws AppException {
+        String result = null;
+        String url = null;
+        try {
+            UUNetWorkServer uunetWorkServer = new UUNetWorkServer(mContext, ConnectionType.URLCON);
+
+            String firstCookie = sharedStore.getString("login_cookies", "");
+            uunetWorkServer.addHeader("Cookie", firstCookie);
+            uunetWorkServer.setRequestType(RequestType.GET);
+            url = Constant.MAIN_DOMAIN + Constant.INTERFACE_REVIEW_ACTIVETASK + "?id=" + taskId;
+            String[] results = uunetWorkServer.startSynchronous(url);
+            if (results != null) {
+                Logger.d("UrlconPostStreamsynTest code ", results[0]);
+                Logger.d("UrlconPostStreamsynTest content ", results[1]);
+                result = results[1];
+            }
+            if (result == null) {
+                return null;
+            }
+            JSONObject jsonObject = new JSONObject(result);
+            if (jsonObject.has("success")) {
+            	String success = jsonObject.getString("success");
+            	return success;
+            }
+            return null;
         } catch (ConnectionException e) {
             throw new AppException(AppException.CONNECTION_CMS_ERROR_CODE, e.getMessage());
         } catch (JSONException e) {

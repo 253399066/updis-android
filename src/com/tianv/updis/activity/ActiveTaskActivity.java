@@ -4,21 +4,27 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.melvin.android.base.common.ui.MessageDialog;
 import com.tianv.updis.AppException;
 import com.tianv.updis.Constant;
 import com.tianv.updis.R;
 import com.tianv.updis.model.ActiveTaskModel;
 import com.tianv.updis.model.ProjectModel;
 import com.tianv.updis.task.ActiveTask;
+import com.tianv.updis.task.ReviewActiveTask;
 import com.tianv.updis.task.TaskCallBack;
 
 /**
  * Created by lm3515 on 14-1-22.
  */
-public class ActiveTaskActivity extends Activity {
-	private TextView mProjectNameTv;
+public class ActiveTaskActivity extends Activity implements OnClickListener{
+	//private TextView mProjectNameTv;
+	private TextView state;// 下达单状态, 不需要前面的标签
 	private TextView partner;// 甲方
 	private TextView partnerType;// 甲方类型
 	private TextView customerContact;// 甲方联系人
@@ -42,7 +48,9 @@ public class ActiveTaskActivity extends Activity {
 	private TextView directorReviewerApplyTime; // 评审时间
 	private String showButton; // String 0: 不显示所长审批按钮; 1:显示
 	private ActiveTask activeTask;
+	private ReviewActiveTask reviewActiveTask;
 	private ProgressDialog mProgressDialog;
+	private Button suozhangAudit;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -58,10 +66,59 @@ public class ActiveTaskActivity extends Activity {
 		if (pm != null) {
 			activeTask = new ActiveTask(ActiveTaskActivity.this,getResourceListTask(),pm.getActiveTaskId());
 			activeTask.execute();
-			
 		}
+		suozhangAudit.setOnClickListener(this);
 	}
 
+	
+	@Override
+	public void onClick(View v) {
+		showProgressDialog();
+		ProjectModel pm = (ProjectModel) getIntent().getSerializableExtra(Constant.EXTRA_PROJECTMODEL);
+		reviewActiveTask = new ReviewActiveTask(ActiveTaskActivity.this,getReviewActiveTaskResult(),pm.getActiveTaskId());
+		reviewActiveTask.execute();
+		
+	}
+	private TaskCallBack<Void, String> getReviewActiveTaskResult() {
+        TaskCallBack<Void, String> taskCallBask = new TaskCallBack<Void, String>() {
+            @Override
+            public void beforeDoingTask() {
+
+            }
+
+            @Override
+            public void doingTask() {
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void doingProgress(Void... fParam) {
+            }
+
+            @Override
+            public void endTask(String eParam, AppException appException) {
+            	if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
+                    mProgressDialog = null;
+                }
+            	MessageDialog mDialog = new MessageDialog(ActiveTaskActivity.this);
+                if ("1".equals(eParam)) {
+                	mDialog.showInfo("所长审核",
+                            "提交成功");
+                }
+                else{
+                	mDialog.showInfo("所长审核",
+                            "提交失败");
+                }
+            }
+        };
+        return taskCallBask;
+    }
 	private TaskCallBack<Void, ActiveTaskModel> getResourceListTask() {
         TaskCallBack<Void, ActiveTaskModel> taskCallBask = new TaskCallBack<Void, ActiveTaskModel>() {
             @Override
@@ -94,14 +151,15 @@ public class ActiveTaskActivity extends Activity {
                 }
                 if (eParam != null) {
                 	ProjectModel pm = (ProjectModel) getIntent().getSerializableExtra(Constant.EXTRA_PROJECTMODEL);
-                	mProjectNameTv.setText(getFilterString(pm.getProjectName()));
+                	//mProjectNameTv.setText(getFilterString(pm.getProjectName()));
+                	state.setText(eParam.getState());
                 	partner.setText(eParam.getPartner());
                 	partnerType.setText(eParam.getPartnerType());
                 	customerContact.setText(eParam.getCustomerContact());
                 	guimo.setText(getNotBlank(eParam.getGuimo()));
                 	yaoQiuXingChengWenJian.setText(getNotBlank(eParam.getYaoQiuXingChengWenJian()));
-                	shiFouTouBiao.setText(getNotBlankBoolean(eParam.getShiFouTouBiao()));
-                	touBiaoLeiBie.setText(getNotBlank(eParam.getTouBiaoLeiBie()));
+                	shiFouTouBiao.setText(getNotBlankBoolean(eParam.getShiFouTouBiao()) );
+                	touBiaoLeiBie.setText(getNotBlankBoolean(eParam.getShiFouTouBiao()));
                 	expressRequirement.setText(getNotBlank(eParam.getExpressRequirement()));
                 	yinHanYaoQiu.setText(getNotBlank(eParam.getYinHanYaoQiu()));
                 	diFangFaGui.setText(getNotBlank(eParam.getDiFangFaGui()));
@@ -116,6 +174,9 @@ public class ActiveTaskActivity extends Activity {
                 	duoFangHeTong.setText(getNotBlankBoolean(eParam.getDuoFangHeTong()));//是 否
                 	directorReviewer.setText(getNotBlank(eParam.getDirectorReviewer()));
                 	directorReviewerApplyTime.setText(getNotBlank(eParam.getDirectorReviewerApplyTime()));
+                	if("1".equals(eParam.getShowButton())){
+                		suozhangAudit.setVisibility(View.INVISIBLE) ;
+                	}
                 	//showButton; // String 0: 不显示所长审批按钮; 1:显示
                 }
             }
@@ -164,7 +225,8 @@ public class ActiveTaskActivity extends Activity {
 	}
 
 	private void findViewById() {
-		mProjectNameTv = (TextView) findViewById(R.id.project_name);
+		//mProjectNameTv = (TextView) findViewById(R.id.project_name);
+		state = (TextView) findViewById(R.id.state);
 		partner = (TextView) findViewById(R.id.partner);
 		partnerType = (TextView) findViewById(R.id.partnerType);// 甲方类型
 		customerContact = (TextView) findViewById(R.id.customerContact);// 甲方联系人
@@ -186,7 +248,7 @@ public class ActiveTaskActivity extends Activity {
 		duoFangHeTong = (TextView) findViewById(R.id.duoFangHeTong); // 多方合同 0:否
 		directorReviewer = (TextView) findViewById(R.id.directorReviewer); // 评审人评审时间
 		directorReviewerApplyTime = (TextView) findViewById(R.id.directorReviewerApplyTime); // 评审时间
-	
+		suozhangAudit= (Button) findViewById(R.id.suozhangAudit); 
 	
 	}
 

@@ -130,6 +130,9 @@ public class JsonDataParser {
             JSONObject jsonObject = new JSONObject(json);
             jsonObject =  jsonObject.getJSONObject("data");
             /** 开始解析 **/
+            if (jsonObject.has("state")) {
+            	activeTaskModel.setState( jsonObject.getString("state"));
+            }
             if (jsonObject.has("partner")) {
             	activeTaskModel.setPartner( jsonObject.getString("partner"));
             }
