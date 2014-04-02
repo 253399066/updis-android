@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-
     <string name="app_name">UPDIS</string>
     <string name="login_on_progress">正在载入...</string>
     <!-- 分类消息顶部导航 -->
@@ -465,7 +464,8 @@
     <string name="aide_title_recent">常用软件</string>
     <string name="aide_title_tips">我的消息</string>
     <string name="aide_title_feedback">客户服务</string>
-    <string name="aide_feedback_tip">请输入您要反馈的问题：<font color="#00FF00">(100个汉字以内)</font></string>
+    <string name="aide_feedback_tip">请输入您要反馈的问题：
+<font color="#00FF00">(100个汉字以内)</font></string>
     <string name="aide_feedback_ok">提交问题</string>
     <string name="aide_recent_tip">最近使用软件，点击打开</string>
     <string name="click_detail">点击详情</string>

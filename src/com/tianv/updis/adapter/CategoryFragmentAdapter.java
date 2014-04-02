@@ -19,10 +19,10 @@ public class CategoryFragmentAdapter extends UUFragmentPageAdapter {
         super(activity, content);
         SharedStore sharedStore = new SharedStore(activity, null);
         add(new CommonListFragment(activity, Constant.VIEW_HOME_NOTICE));
-        //String canViewTender = sharedStore.getString(Constant.UPDIS_STORE_KEY_CANVIEWTENDER, "0");
-        //if (canViewTender.equals("1")) {
+        String canViewTender = sharedStore.getString(Constant.UPDIS_STORE_KEY_CANVIEWTENDER, "0");
+        if ("1".equals(canViewTender)) {
         	add(new CommonListFragment(activity, Constant.VIEW_HOME_BIDDING));
-        //}
+        }
         
         //add(new CommonListFragment(activity, Constant.VIEW_HOME_BIDDING));
         add(new CommonListFragment(activity, Constant.VIEW_HOME_TALK));
