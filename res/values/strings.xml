@@ -529,7 +529,8 @@
     <string name="directorReviewerApplyTime">评审时间</string>
     <string name="showButton">不显示所长审批按钮</string>
     <string name="no_active_task">没有项目下达单</string>
-    <string name="suozhangAudit">所长审核</string>
+    <string name="suozhangAudit">所长审批通过</string>
+    <string name="audit_confirm">确认审批通过么?</string>
     <!-- 项目下达单 END -->
 
 </resources>

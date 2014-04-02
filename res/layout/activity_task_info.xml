@@ -597,7 +597,7 @@
                     android:padding="8dp"
                     android:scaleType="matrix"
                     android:text=""
-                    android:textColor="#000" />
+                    android:textColor="#ff0000" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -624,7 +624,7 @@
                     android:padding="8dp"
                     android:scaleType="matrix"
                     android:text=""
-                    android:textColor="#000" />
+                    android:textColor="#ff0000" />
             </RelativeLayout>
             <!-- ****************************************** -->
 

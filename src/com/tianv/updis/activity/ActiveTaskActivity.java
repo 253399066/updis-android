@@ -9,6 +9,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.melvin.android.base.common.ui.IMessageDialogListener;
 import com.melvin.android.base.common.ui.MessageDialog;
 import com.tianv.updis.AppException;
 import com.tianv.updis.Constant;
@@ -22,8 +23,13 @@ import com.tianv.updis.task.TaskCallBack;
 /**
  * Created by lm3515 on 14-1-22.
  */
-public class ActiveTaskActivity extends Activity implements OnClickListener{
+public class ActiveTaskActivity extends Activity implements OnClickListener,IMessageDialogListener{
 	//private TextView mProjectNameTv;
+	private int AUDIT_CONFIRM = 10011;
+	/**
+     * 页面弹出对话框
+     */
+    protected MessageDialog mDialog = null;
 	private TextView state;// 下达单状态, 不需要前面的标签
 	private TextView partner;// 甲方
 	private TextView partnerType;// 甲方类型
@@ -73,12 +79,34 @@ public class ActiveTaskActivity extends Activity implements OnClickListener{
 	
 	@Override
 	public void onClick(View v) {
-		showProgressDialog();
-		ProjectModel pm = (ProjectModel) getIntent().getSerializableExtra(Constant.EXTRA_PROJECTMODEL);
-		reviewActiveTask = new ReviewActiveTask(ActiveTaskActivity.this,getReviewActiveTaskResult(),pm.getActiveTaskId());
-		reviewActiveTask.execute();
+		mDialog.showConfirm(AUDIT_CONFIRM, getString(R.string.suozhangAudit),
+                getString(R.string.audit_confirm), this);
+		
 		
 	}
+	@Override
+	public void onDialogClickOk(int requestCode) {
+	// TODO Auto-generated method stub
+		if (requestCode == AUDIT_CONFIRM) {
+			showProgressDialog();
+			ProjectModel pm = (ProjectModel) getIntent().getSerializableExtra(Constant.EXTRA_PROJECTMODEL);
+			reviewActiveTask = new ReviewActiveTask(ActiveTaskActivity.this,getReviewActiveTaskResult(),pm.getActiveTaskId());
+			reviewActiveTask.execute();
+		}
+	}
+	
+	@Override
+	public void onDialogClickCancel(int requestCode) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDialogClickClose(int requestCode) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	private TaskCallBack<Void, String> getReviewActiveTaskResult() {
         TaskCallBack<Void, String> taskCallBask = new TaskCallBack<Void, String>() {
             @Override
@@ -160,7 +188,7 @@ public class ActiveTaskActivity extends Activity implements OnClickListener{
                 	guimo.setText(getNotBlank(eParam.getGuimo()));
                 	yaoQiuXingChengWenJian.setText(getNotBlank(eParam.getYaoQiuXingChengWenJian()));
                 	shiFouTouBiao.setText(getNotBlankBoolean(eParam.getShiFouTouBiao()) );
-                	touBiaoLeiBie.setText(getNotBlankBoolean(eParam.getShiFouTouBiao()));
+                	touBiaoLeiBie.setText(getNotBlank(eParam.getTouBiaoLeiBie()));
                 	expressRequirement.setText(getNotBlank(eParam.getExpressRequirement()));
                 	yinHanYaoQiu.setText(getNotBlank(eParam.getYinHanYaoQiu()));
                 	diFangFaGui.setText(getNotBlank(eParam.getDiFangFaGui()));
@@ -250,6 +278,9 @@ public class ActiveTaskActivity extends Activity implements OnClickListener{
 		directorReviewer = (TextView) findViewById(R.id.directorReviewer); // 评审人评审时间
 		directorReviewerApplyTime = (TextView) findViewById(R.id.directorReviewerApplyTime); // 评审时间
 		suozhangAudit= (Button) findViewById(R.id.suozhangAudit); 
+		if (mDialog == null) {
+            mDialog = new MessageDialog(this);
+        }
 	
 	}
 
