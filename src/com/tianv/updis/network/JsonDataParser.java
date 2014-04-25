@@ -1,4 +1,3 @@
-
 package com.tianv.updis.network;
 
 import java.text.ParseException;
@@ -38,609 +37,789 @@ import com.uucun.android.utils.date.DateUtil;
  */
 public class JsonDataParser {
 
-    /**
-     * @param
-     * @return
-     * @Description:构造函数
-     */
-    public JsonDataParser(Context context) {
-        super();
-    }
+	/**
+	 * @param
+	 * @return
+	 * @Description:构造函数
+	 */
+	public JsonDataParser(Context context) {
+		super();
+	}
 
-    /**
-     * 资源列表
-     *
-     * @param json
-     * @param pageFetch
-     * @return
-     * @throws JSONException
-     */
-    public ArrayList<ResourceModel> getResourceList(String json, PageFetcher pageFetch)
-            throws JSONException {
-        if (json == null || json.trim().equals("")) {
-            return null;
-        }
-        ArrayList<ResourceModel> arrayList = new ArrayList<ResourceModel>();
-        try {
+	/**
+	 * 资源列表
+	 * 
+	 * @param json
+	 * @param pageFetch
+	 * @return
+	 * @throws JSONException
+	 */
+	public ArrayList<ResourceModel> getResourceList(String json,
+			PageFetcher pageFetch) throws JSONException {
+		if (json == null || json.trim().equals("")) {
+			return null;
+		}
+		ArrayList<ResourceModel> arrayList = new ArrayList<ResourceModel>();
+		try {
 
-            JSONObject jsonObj = new JSONObject(json);
-            JSONArray jsonArray = jsonObj.getJSONArray(JsonConst.DATA);
+			JSONObject jsonObj = new JSONObject(json);
+			JSONArray jsonArray = jsonObj.getJSONArray(JsonConst.DATA);
 
-            /** 开始循环解析 **/
-            int length = jsonArray.length();
-            for (int i = 0; i < length; i++) {
-                JSONObject jsonObject = (JSONObject) jsonArray.opt(i);
-                ResourceModel resource;
-                if (jsonObj.has(JsonConst.TOTAL_PAGE)) {
-                    int total = Integer.valueOf(jsonObj.getString(JsonConst.TOTAL_PAGE));
-                    if (pageFetch != null) {
-                        pageFetch.fetchPageInfo(total);
-                    }
-                }
-                resource = getResourceModel(jsonObject);
-                arrayList.add(resource);
-            }
-        } catch (JSONException e) {
-            throw e;
-        }
-        return arrayList.isEmpty() ? null : arrayList;
-    }
+			/** 开始循环解析 **/
+			int length = jsonArray.length();
+			for (int i = 0; i < length; i++) {
+				JSONObject jsonObject = (JSONObject) jsonArray.opt(i);
+				ResourceModel resource;
+				if (jsonObj.has(JsonConst.TOTAL_PAGE)) {
+					int total = Integer.valueOf(jsonObj
+							.getString(JsonConst.TOTAL_PAGE));
+					if (pageFetch != null) {
+						pageFetch.fetchPageInfo(total);
+					}
+				}
+				resource = getResourceModel(jsonObject);
+				arrayList.add(resource);
+			}
+		} catch (JSONException e) {
+			throw e;
+		}
+		return arrayList.isEmpty() ? null : arrayList;
+	}
 
-    public LoginDataModel getLoginData(String json) throws JSONException {
-        if (json == null || json.trim().equals("")) {
-            return null;
-        }
-        LoginDataModel loginDataModel = new LoginDataModel();
-        try {
+	public LoginDataModel getLoginData(String json) throws JSONException {
+		if (json == null || json.trim().equals("")) {
+			return null;
+		}
+		LoginDataModel loginDataModel = new LoginDataModel();
+		try {
 
-            JSONObject jsonObject = new JSONObject(json);
-            /** 开始解析 **/
-            if (jsonObject.has(JsonConst.UPDIS_JSON_SUCCESS)) {
-                loginDataModel.success = jsonObject.getString(JsonConst.UPDIS_JSON_SUCCESS);
-            }
-            if (jsonObject.has(JsonConst.UPDIS_JSON_MSG)) {
-                loginDataModel.msg = jsonObject.getString(JsonConst.UPDIS_JSON_MSG);
-            }
-            if (jsonObject.has(JsonConst.UPDIS_JSON_USERID)) {
-                loginDataModel.userid = jsonObject.getString(JsonConst.UPDIS_JSON_USERID);
-            }
-            if (jsonObject.has(JsonConst.UPDIS_JSON_REG)) {
-                loginDataModel.registered = jsonObject.getString(JsonConst.UPDIS_JSON_REG);
-            }
-            if (jsonObject.has(JsonConst.UPDIS_JSON_PHONENUM)) {
-                loginDataModel.phoneNum = jsonObject.getString(JsonConst.UPDIS_JSON_PHONENUM);
-            }
-            if (jsonObject.has(JsonConst.UPDIS_JSON_ISSPECAILUSER)) {
-                loginDataModel.isSpecailUser = jsonObject.getString(JsonConst.UPDIS_JSON_ISSPECAILUSER);
-            }
-            if (jsonObject.has(JsonConst.UPDIS_JSON_CANVIEWTENDER)) {
-                loginDataModel.canViewTender = jsonObject.getString(JsonConst.UPDIS_JSON_CANVIEWTENDER);
-            }
+			JSONObject jsonObject = new JSONObject(json);
+			/** 开始解析 **/
+			if (jsonObject.has(JsonConst.UPDIS_JSON_SUCCESS)) {
+				loginDataModel.success = jsonObject
+						.getString(JsonConst.UPDIS_JSON_SUCCESS);
+			}
+			if (jsonObject.has(JsonConst.UPDIS_JSON_MSG)) {
+				loginDataModel.msg = jsonObject
+						.getString(JsonConst.UPDIS_JSON_MSG);
+			}
+			if (jsonObject.has(JsonConst.UPDIS_JSON_USERID)) {
+				loginDataModel.userid = jsonObject
+						.getString(JsonConst.UPDIS_JSON_USERID);
+			}
+			if (jsonObject.has(JsonConst.UPDIS_JSON_REG)) {
+				loginDataModel.registered = jsonObject
+						.getString(JsonConst.UPDIS_JSON_REG);
+			}
+			if (jsonObject.has(JsonConst.UPDIS_JSON_PHONENUM)) {
+				loginDataModel.phoneNum = jsonObject
+						.getString(JsonConst.UPDIS_JSON_PHONENUM);
+			}
+			if (jsonObject.has(JsonConst.UPDIS_JSON_ISSPECAILUSER)) {
+				loginDataModel.isSpecailUser = jsonObject
+						.getString(JsonConst.UPDIS_JSON_ISSPECAILUSER);
+			}
+			if (jsonObject.has(JsonConst.UPDIS_JSON_CANVIEWTENDER)) {
+				loginDataModel.canViewTender = jsonObject
+						.getString(JsonConst.UPDIS_JSON_CANVIEWTENDER);
+			}
 
-        } catch (JSONException e) {
-            throw e;
-        }
-        return loginDataModel;
-    }
+		} catch (JSONException e) {
+			throw e;
+		}
+		return loginDataModel;
+	}
 
-    public ActiveTaskModel getActiveTaskData(String json) throws JSONException {
-        if (json == null || json.trim().equals("")) {
-            return null;
-        }
-        ActiveTaskModel activeTaskModel = new ActiveTaskModel();
-        try {
+	public ActiveTaskModel getActiveTaskData(String json) throws JSONException {
+		if (json == null || json.trim().equals("")) {
+			return null;
+		}
+		ActiveTaskModel activeTaskModel = new ActiveTaskModel();
+		try {
 
-            JSONObject jsonObject = new JSONObject(json);
-            jsonObject =  jsonObject.getJSONObject("data");
-            /** 开始解析 **/
-            if (jsonObject.has("state")) {
-            	activeTaskModel.setState( jsonObject.getString("state"));
-            }
-            if (jsonObject.has("partner")) {
-            	activeTaskModel.setPartner( jsonObject.getString("partner"));
-            }
-            if (jsonObject.has("partnerType")) {
-            	activeTaskModel.setPartnerType(jsonObject.getString("partnerType"));
-            }
-            if (jsonObject.has("customerContact")) {
-            	activeTaskModel.setCustomerContact(jsonObject.getString("customerContact"));
-            }
-            if (jsonObject.has("guiMo")) {
-            	activeTaskModel.setGuimo( jsonObject.getString("guiMo"));
-            }
-            if (jsonObject.has("yaoQiuXingChengWenJian")) {
-            	activeTaskModel.setYaoQiuXingChengWenJian(jsonObject.getString("yaoQiuXingChengWenJian"));
-            }
-            if (jsonObject.has("shiFouTouBiao")) {
-            	activeTaskModel.setShiFouTouBiao( jsonObject.getString("shiFouTouBiao"));
-            }
-            if (jsonObject.has("touBiaoLeiBie")) {
-            	activeTaskModel.setTouBiaoLeiBie( jsonObject.getString("touBiaoLeiBie"));
-            }
-            if (jsonObject.has("expressRequirement")) {
-            	activeTaskModel.setExpressRequirement( jsonObject.getString("expressRequirement"));
-            }
-            if (jsonObject.has("yinHanYaoQiu")) {
-            	activeTaskModel.setYinHanYaoQiu( jsonObject.getString("yinHanYaoQiu"));
-            }
-            if (jsonObject.has("diFangFaGui")) {
-            	activeTaskModel.setDiFangFaGui( jsonObject.getString("diFangFaGui"));
-            }
-            if (jsonObject.has("fuJiaYaoQiu")) {
-            	activeTaskModel.setFuJiaYaoQiu( jsonObject.getString("fuJiaYaoQiu"));
-            }
-            if (jsonObject.has("heTongYiZhi")) {
-            	activeTaskModel.setHeTongYiZhi( jsonObject.getString("heTongYiZhi"));
-            }
-            if (jsonObject.has("ziYuanManZu")) {
-            	activeTaskModel.setZiYuanManZu( jsonObject.getString("ziYuanManZu"));
-            }
-            if (jsonObject.has("sheBeiManZu")) {
-            	activeTaskModel.setSheBeiManZu( jsonObject.getString("sheBeiManZu"));
-            }
-            if (jsonObject.has("gongQiManZu")) {
-            	activeTaskModel.setGongQiManZu( jsonObject.getString("gongQiManZu"));
-            }
-            if (jsonObject.has("sheJiFeiManZu")) {
-            	activeTaskModel.setSheJiFeiManZu( jsonObject.getString("sheJiFeiManZu"));
-            }
-            if (jsonObject.has("shiFouWaiBao")) {
-            	activeTaskModel.setShiFouWaiBao(jsonObject.getString("shiFouWaiBao"));
-            }
-            if (jsonObject.has("shiZhengPeiTao")) {
-            	activeTaskModel.setShiZhengPeiTao( jsonObject.getString("shiZhengPeiTao"));
-            }
-            if (jsonObject.has("duoFangHeTong")) {
-            	activeTaskModel.setDuoFangHeTong(jsonObject.getString("duoFangHeTong"));
-            }
-            if (jsonObject.has("directorReviewer")) {
-            	activeTaskModel.setDirectorReviewer( jsonObject.getString("directorReviewer"));
-            }
-            if (jsonObject.has("directorReviewerApplyTime")) {
-            	activeTaskModel.setDirectorReviewerApplyTime(jsonObject.getString("directorReviewerApplyTime"));
-            }
-            if (jsonObject.has("showButton")) {
-            	activeTaskModel.setShowButton( jsonObject.getString("showButton"));
-            }
-        } catch (JSONException e) {
-            throw e;
-        }
-        return activeTaskModel;
-    }
-    
-    public void getDictData(String json) throws JSONException {
-        // TODO Auto-generated method stub
-        if (json == null || json.trim().equals("")) {
-            return;
-        }
-        try {
+			JSONObject jsonObject = new JSONObject(json);
+			jsonObject = jsonObject.getJSONObject("data");
+			/** 开始解析 **/
+			if (jsonObject.has("state")) {
+				activeTaskModel.setState(jsonObject.getString("state"));
+			}
+			if (jsonObject.has("partner")) {
+				activeTaskModel.setPartner(jsonObject.getString("partner"));
+			}
+			if (jsonObject.has("partnerType")) {
+				activeTaskModel.setPartnerType(jsonObject
+						.getString("partnerType"));
+			}
+			if (jsonObject.has("customerContact")) {
+				activeTaskModel.setCustomerContact(jsonObject
+						.getString("customerContact"));
+			}
+			if (jsonObject.has("guiMo")) {
+				activeTaskModel.setGuimo(jsonObject.getString("guiMo"));
+			}
+			if (jsonObject.has("yaoQiuXingChengWenJian")) {
+				activeTaskModel.setYaoQiuXingChengWenJian(jsonObject
+						.getString("yaoQiuXingChengWenJian"));
+			}
+			if (jsonObject.has("shiFouTouBiao")) {
+				activeTaskModel.setShiFouTouBiao(jsonObject
+						.getString("shiFouTouBiao"));
+			}
+			if (jsonObject.has("touBiaoLeiBie")) {
+				activeTaskModel.setTouBiaoLeiBie(jsonObject
+						.getString("touBiaoLeiBie"));
+			}
+			if (jsonObject.has("expressRequirement")) {
+				activeTaskModel.setExpressRequirement(jsonObject
+						.getString("expressRequirement"));
+			}
+			if (jsonObject.has("yinHanYaoQiu")) {
+				activeTaskModel.setYinHanYaoQiu(jsonObject
+						.getString("yinHanYaoQiu"));
+			}
+			if (jsonObject.has("diFangFaGui")) {
+				activeTaskModel.setDiFangFaGui(jsonObject
+						.getString("diFangFaGui"));
+			}
+			if (jsonObject.has("fuJiaYaoQiu")) {
+				activeTaskModel.setFuJiaYaoQiu(jsonObject
+						.getString("fuJiaYaoQiu"));
+			}
+			if (jsonObject.has("heTongYiZhi")) {
+				activeTaskModel.setHeTongYiZhi(jsonObject
+						.getString("heTongYiZhi"));
+			}
+			if (jsonObject.has("ziYuanManZu")) {
+				activeTaskModel.setZiYuanManZu(jsonObject
+						.getString("ziYuanManZu"));
+			}
+			if (jsonObject.has("sheBeiManZu")) {
+				activeTaskModel.setSheBeiManZu(jsonObject
+						.getString("sheBeiManZu"));
+			}
+			if (jsonObject.has("gongQiManZu")) {
+				activeTaskModel.setGongQiManZu(jsonObject
+						.getString("gongQiManZu"));
+			}
+			if (jsonObject.has("sheJiFeiManZu")) {
+				activeTaskModel.setSheJiFeiManZu(jsonObject
+						.getString("sheJiFeiManZu"));
+			}
+			if (jsonObject.has("shiFouWaiBao")) {
+				activeTaskModel.setShiFouWaiBao(jsonObject
+						.getString("shiFouWaiBao"));
+			}
+			if (jsonObject.has("shiZhengPeiTao")) {
+				activeTaskModel.setShiZhengPeiTao(jsonObject
+						.getString("shiZhengPeiTao"));
+			}
+			if (jsonObject.has("duoFangHeTong")) {
+				activeTaskModel.setDuoFangHeTong(jsonObject
+						.getString("duoFangHeTong"));
+			}
+			if (jsonObject.has("directorReviewer")) {
+				activeTaskModel.setDirectorReviewer(jsonObject
+						.getString("directorReviewer"));
+			}
+			if (jsonObject.has("directorReviewerApplyTime")) {
+				activeTaskModel.setDirectorReviewerApplyTime(jsonObject
+						.getString("directorReviewerApplyTime"));
+			}
+			if (jsonObject.has("showDirectorReviewButton")) {
+				activeTaskModel.setShowButton(jsonObject
+						.getString("showDirectorReviewButton"));
+			}
+			
+			if (jsonObject.has("showProjectLeadReviewAndRejectButton")) {
+				activeTaskModel.setShowProjectLeadReviewAndRejectButton(jsonObject
+						.getString("showProjectLeadReviewAndRejectButton"));
+			}
+			
+			if (jsonObject.has("showProjectLeadReviewAndRejectButton")) {
+				activeTaskModel.setShowProjectLeadReviewAndRejectButton(jsonObject
+						.getString("showProjectLeadReviewAndRejectButton"));
+			}
+			
+			if (jsonObject.has("stateId")) {
+				activeTaskModel.setStateId(jsonObject.getString("stateId"));
+			}
 
-            JSONObject jsonObj = new JSONObject(json);
-            JSONObject tempObj = jsonObj.getJSONObject(JsonConst.DATA);
-            if (tempObj.has(JsonConst.UPDIS_JSON_DEPT)) {
-                JSONArray jsonArray = tempObj.getJSONArray(JsonConst.UPDIS_JSON_DEPT);
-                if (jsonArray != null && jsonArray.length() > 0) {
-                    int length = jsonArray.length();
-                    for (int i = 0; i < length; i++) {
-                        JSONObject jsonObject = (JSONObject) jsonArray.opt(i);
-                        DictionaryModel dictionaryModel = new DictionaryModel();
-                        dictionaryModel.dictKey = Constant.UPDIS_DIC_KEY_DEPT;
-                        dictionaryModel.dictValue = jsonObject
-                                .getString(JsonConst.UPDIS_JSON_DEPT_NAME);
-                        List<DictionaryModel> nowList = new Select()
-                                .from(DictionaryModel.class)
-                                .where("dictKey='" + Constant.UPDIS_DIC_KEY_DEPT + "' and dictValue='"
-                                        + jsonObject.getString(JsonConst.UPDIS_JSON_DEPT_NAME) + "'")
-                                .execute();
-                        if (nowList != null && nowList.size() > 0) {
-                            for (DictionaryModel temp : nowList) {
-                                temp.delete();
-                            }
-                        }
-                        dictionaryModel.save();
-                    }
-                }
-            }
-            if (tempObj.has(JsonConst.UPDIS_JSON_SUBJECT)) {
-                JSONArray jsonArray = tempObj.getJSONArray(JsonConst.UPDIS_JSON_SUBJECT);
-                if (jsonArray != null && jsonArray.length() > 0) {
-                    int length = jsonArray.length();
-                    for (int i = 0; i < length; i++) {
-                        JSONObject jsonObject = (JSONObject) jsonArray.opt(i);
-                        DictionaryModel dictionaryModel = new DictionaryModel();
-                        dictionaryModel.dictKey = Constant.UPDIS_DIC_KEY_SUBJECT;
-                        dictionaryModel.dictValue = jsonObject
-                                .getString(JsonConst.UPDIS_JSON_SUBJECT_NAME);
-                        List<DictionaryModel> nowList = new Select()
-                                .from(DictionaryModel.class)
-                                .where("dictKey='" + Constant.UPDIS_DIC_KEY_SUBJECT
-                                        + "' and dictValue='"
-                                        + jsonObject.getString(JsonConst.UPDIS_JSON_SUBJECT_NAME)
-                                        + "'").execute();
-                        if (nowList != null && nowList.size() > 0) {
-                            for (DictionaryModel temp : nowList) {
-                                temp.delete();
-                            }
-                        }
-                        dictionaryModel.save();
-                    }
-                }
-            }
+			if (jsonObject.has("pingShenFangShi")) {
+				activeTaskModel.setPingShenFangShi(jsonObject
+						.getString("pingShenFangShi"));
+			}
 
-        } catch (JSONException e) {
-            throw e;
-        }
-    }
+			if (jsonObject.has("yinFaCuoShi")) {
+				activeTaskModel.setYinFaCuoShi(jsonObject
+						.getString("yinFaCuoShi"));
+			}
 
-    /**
-     * 解析详情页面JSON数据
-     */
-    public ResourceDetailModel getResourceDetail(String json) throws JSONException {
-        // TODO Auto-generated method stub
-        if (json == null || json.trim().equals("")) {
-            return null;
-        }
-        ResourceDetailModel resourceDetailModel = new ResourceDetailModel();
-        try {
+			if (jsonObject.has("renWuYaoQiu")) {
+				activeTaskModel.setRenWuYaoQiu(jsonObject
+						.getString("renWuYaoQiu"));
+			}
 
-            JSONObject jsonObj = new JSONObject(json);
-            JSONObject tempObj = jsonObj.getJSONObject(JsonConst.DATA);
-            /** 开始详情数据解析 **/
-            if (tempObj.has(JsonConst.UPDIS_JSON_CONTENT)) {
-                JSONObject contentObj = tempObj.getJSONObject(JsonConst.UPDIS_JSON_CONTENT);
-                if (contentObj != null && contentObj.length() > 0) {
-                    if (contentObj.has(JsonConst.UPDIS_JSON_TITLE)) {
-                        resourceDetailModel.title = contentObj
-                                .getString(JsonConst.UPDIS_JSON_TITLE);
-                    }
-                    if (contentObj.has(JsonConst.UPDIS_JSON_DATE)) {
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        Date date = null;
-                        try {
-                            date = sdf.parse(contentObj.getString(JsonConst.UPDIS_JSON_DATE));
-                        } catch (ParseException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                        resourceDetailModel.date = DateUtil.dateToString(date);
-                    }
-                    if (contentObj.has(JsonConst.UPDIS_JSON_DEPT)) {
-                        resourceDetailModel.dept = contentObj.getString(JsonConst.UPDIS_JSON_DEPT);
-                    }
-                    if (contentObj.has(JsonConst.UPDIS_JSON_AUTHOR)) {
-                        resourceDetailModel.author = contentObj
-                                .getString(JsonConst.UPDIS_JSON_AUTHOR);
-                    }
-                    if (contentObj.has(JsonConst.UPDIS_JSON_READCOUNT)) {
-                        resourceDetailModel.readCount = contentObj
-                                .getString(JsonConst.UPDIS_JSON_READCOUNT);
-                    }
-                    if (contentObj.has(JsonConst.UPDIS_JSON_CONTENT)) {
-                        resourceDetailModel.content = contentObj
-                                .getString(JsonConst.UPDIS_JSON_CONTENT);
-                    }
-                    if (contentObj.has(JsonConst.UPDIS_JSON_MESSAGEDETAILMETA)) {
-                        resourceDetailModel.messageDetailMeta = contentObj
-                                .getString(JsonConst.UPDIS_JSON_MESSAGEDETAILMETA);
-                    }
-                }
-            }
+			if (jsonObject.has("chengJieBuMen")) {
+				activeTaskModel.setChengJieBuMen(jsonObject
+						.getString("chengJieBuMen"));
+			}
 
-            /** 开始解析评论数据 **/
-            if (tempObj.has(JsonConst.UPDIS_JSON_COMMENT)) {
-                try {
-                    JSONArray commentArray = tempObj.getJSONArray(JsonConst.UPDIS_JSON_COMMENT);
-                    ArrayList<CommentModel> tempList = new ArrayList<CommentModel>();
-                    if (commentArray != null && commentArray.length() > 0) {
-                        for (int i = 0; i < commentArray.length(); i++) {
-                            JSONObject temp = commentArray.getJSONObject(i);
-                            if (temp != null) {
-                                CommentModel commentModel = new CommentModel();
-                                if (temp.has(JsonConst.UPDIS_JSON_COMMENT_COMMENTID)) {
-                                    commentModel.commentId = temp.getString(JsonConst.UPDIS_JSON_COMMENT_COMMENTID);
-                                }
-                                if (temp.has(JsonConst.UPDIS_JSON_AUTHOR)) {
-                                    commentModel.author = temp.getString(JsonConst.UPDIS_JSON_AUTHOR);
-                                    if (UIUtilities.isNull(commentModel.author)) {
-                                        commentModel.author = "匿名";
-                                    }
-                                }
-                                if (temp.has(JsonConst.UPDIS_JSON_DATETIME)) {
-                                    commentModel.datetime = temp.getString(JsonConst.UPDIS_JSON_DATETIME);
-                                }
-                                if (temp.has(JsonConst.UPDIS_JSON_ICONURL)) {
-                                    commentModel.iconUrl = temp.getString(JsonConst.UPDIS_JSON_ICONURL);
-                                }
-                                if (temp.has(JsonConst.UPDIS_JSON_CONTENT)) {
-                                    commentModel.content = temp.getString(JsonConst.UPDIS_JSON_CONTENT);
-                                }
-                                if (temp.has(JsonConst.UPDIS_JSON_COMMENT_ISANONYMOUS)) {
-                                    commentModel.isAnonymous = temp.getString(JsonConst.UPDIS_JSON_COMMENT_ISANONYMOUS);
-                                }
+			if (jsonObject.has("jingYingShiReviewer")) {
+				activeTaskModel.setJingYingShiReviewer(jsonObject
+						.getString("jingYingShiReviewer"));
+			}
 
-                                tempList.add(commentModel);
-                            }
-                        }
-                        resourceDetailModel.commentList = tempList;
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+			if (jsonObject.has("jingYingShiReviewApplyTime")) {
+				activeTaskModel.setJingYingShiReviewApplyTime(jsonObject
+						.getString("jingYingShiReviewApplyTime"));
+			}
 
-            }
-            /** 开始解析相关阅读 **/
-            if (tempObj.has(JsonConst.UPDIS_JSON_RELATED)) {
-                try {
-                    JSONArray relatedArray = tempObj.getJSONArray(JsonConst.UPDIS_JSON_RELATED);
-                    ArrayList<ResourceModel> tempList = new ArrayList<ResourceModel>();
-                    if (relatedArray != null && relatedArray.length() > 0) {
-                        for (int i = 0; i < relatedArray.length(); i++) {
-                            JSONObject temp = relatedArray.getJSONObject(i);
-                            if (temp != null) {
-                                ResourceModel resourceModel = getResourceModel(temp);
-                                tempList.add(resourceModel);
-                            }
-                        }
-                        resourceDetailModel.relatedList = tempList;
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+			if (jsonObject.has("projectCategory")) {
+				activeTaskModel.setProjectCategory(jsonObject
+						.getString("projectCategory"));
+			}
 
-        } catch (JSONException e) {
-            throw e;
-        }
-        return resourceDetailModel;
-    }
+			if (jsonObject.has("guanLiJiBie")) {
+				activeTaskModel.setGuanLiJiBie(jsonObject
+						.getString("guanLiJiBie"));
+			}
 
-    /**
-     * 通用解析列表数据JSON
-     */
-    private ResourceModel getResourceModel(JSONObject jsonObject) throws JSONException {
-        ResourceModel resourceModel = new ResourceModel();
-        if (jsonObject.has(JsonConst.UPDIS_JSON_CONTENT_ID)) {
-            resourceModel.contentId = jsonObject.getString(JsonConst.UPDIS_JSON_CONTENT_ID);
-        }
-        if (jsonObject.has(JsonConst.UPDIS_JSON_TITLE)) {
-            resourceModel.title = jsonObject.getString(JsonConst.UPDIS_JSON_TITLE);
-        }
-        if (jsonObject.has(JsonConst.UPDIS_JSON_SUBTITLE)) {
-            resourceModel.subTitle = jsonObject.getString(JsonConst.UPDIS_JSON_SUBTITLE);
-        }
-        if (jsonObject.has(JsonConst.UPDIS_JSON_AUTHOR)) {
-            resourceModel.author = jsonObject.getString(JsonConst.UPDIS_JSON_AUTHOR);
-        }
-        if (jsonObject.has(JsonConst.UPDIS_JSON_DATETIME)) {
-            resourceModel.dateTime = jsonObject.getString(JsonConst.UPDIS_JSON_DATETIME);
-        }
-        if (jsonObject.has(JsonConst.UPDIS_JSON_ICONURL)) {
-            resourceModel.iconUrl = jsonObject.getString(JsonConst.UPDIS_JSON_ICONURL);
-        }
-        if (jsonObject.has(JsonConst.UPDIS_JSON_READCOUNT)) {
-            resourceModel.readCount = jsonObject.getString(JsonConst.UPDIS_JSON_READCOUNT);
-        }
-        if (jsonObject.has(JsonConst.UPDIS_JSON_COMMENTS)) {
-            resourceModel.comments = jsonObject.getString(JsonConst.UPDIS_JSON_COMMENTS);
-        }
-        if (jsonObject.has(JsonConst.UPDIS_JSON_MESSAGELISTMETA)) {
-            resourceModel.messageListMeta = jsonObject.getString(JsonConst.UPDIS_JSON_MESSAGELISTMETA);
-        }
-        return resourceModel;
-    }
+			if (jsonObject.has("projectLead")) {
+				activeTaskModel.setProjectLead(jsonObject
+						.getString("projectLead"));
+			}
 
-    public ArrayList<PersonModel> getPersonList(String json, PageFetcher pageFetch, String flag) throws JSONException {
-        if (json == null || json.trim().equals("")) {
-            return null;
-        }
-        ArrayList<PersonModel> arrayList = new ArrayList<PersonModel>();
-        try {
+			if (jsonObject.has("zhuGuanZongShi")) {
+				activeTaskModel.setZhuGuanZongShi(jsonObject
+						.getString("zhuGuanZongShi"));
+			}
 
-            if (flag.equals("1")) {
-                JSONObject jsonObj = new JSONObject(json);
-                JSONArray jsonArray = jsonObj.getJSONArray(JsonConst.DATA);
+			if (jsonObject.has("zongShiShiReviewer")) {
+				activeTaskModel.setZongShiShiReviewer(jsonObject
+						.getString("zongShiShiReviewer"));
+			}
 
-                /** 开始循环解析 **/
-                int length = jsonArray.length();
-                for (int i = 0; i < length; i++) {
-                    JSONObject jsonObject = (JSONObject) jsonArray.opt(i);
-                    PersonModel personModel;
-                    if (jsonObj.has(JsonConst.TOTAL_PAGE)) {
-                        int total = Integer.valueOf(jsonObj.getString(JsonConst.TOTAL_PAGE));
-                        if (pageFetch != null) {
-                            pageFetch.fetchPageInfo(total);
-                        }
-                    }
-                    personModel = getPersonModel(jsonObject);
+			if (jsonObject.has("zongShiShiReviewApplyTime")) {
+				activeTaskModel.setZongShiShiReviewApplyTime(jsonObject
+						.getString("zongShiShiReviewApplyTime"));
+			}
 
-                    if (personModel != null)
-                        arrayList.add(personModel);
-                }
-            } else {
-                JSONObject jsonObj = new JSONObject(json);
-                JSONObject dataObj = jsonObj.getJSONObject(JsonConst.DATA);
-                PersonModel personModel = getPersonModel(dataObj);
-                if (personModel != null)
-                    arrayList.add(personModel);
-            }
-        } catch (JSONException e) {
-            throw e;
-        }
-        return arrayList.isEmpty() ? null : arrayList;
-    }
+			if (jsonObject.has("showProjectLeadReviewAndRejectButton")) {
+				activeTaskModel.setShowProjectLeadReviewAndRejectButton(jsonObject
+						.getString("showProjectLeadReviewAndRejectButton"));
+			}
 
-    /**
-     * 解析人员JSON
-     *
-     * @param jsonObject
-     * @return
-     * @throws JSONException
-     */
-    private PersonModel getPersonModel(JSONObject jsonObject) throws JSONException {
-        PersonModel personModel = new PersonModel();
-        if (jsonObject.has(JsonConst.UPDIS_JSON_USERID)) {
-            personModel.userid = jsonObject.getString(JsonConst.UPDIS_JSON_USERID);
-        }
-        if (jsonObject.has(JsonConst.UPDIS_JSON_NAME)) {
-            personModel.name = jsonObject.getString(JsonConst.UPDIS_JSON_NAME);
-        }
-        if (jsonObject.has(JsonConst.UPDIS_JSON_DEPT)) {
-            personModel.dept = jsonObject.getString(JsonConst.UPDIS_JSON_DEPT);
-        }
-        if (jsonObject.has(JsonConst.UPDIS_JSON_BIRTHDAY)) {
-            personModel.birthday = jsonObject.getString(JsonConst.UPDIS_JSON_BIRTHDAY);
-        }
-        if (jsonObject.has(JsonConst.UPDIS_JSON_GENDER)) {
-            personModel.gender = jsonObject.getString(JsonConst.UPDIS_JSON_GENDER);
-        }
-        if (jsonObject.has(JsonConst.UPDIS_JSON_SPECIALTY)) {
-            personModel.specialty = jsonObject.getString(JsonConst.UPDIS_JSON_SPECIALTY);
-        }
-        if (jsonObject.has(JsonConst.UPDIS_JSON_EDUCATIONAL)) {
-            personModel.educational = jsonObject.getString(JsonConst.UPDIS_JSON_EDUCATIONAL);
-        }
-        if (jsonObject.has(JsonConst.UPDIS_JSON_DEGREE)) {
-            personModel.degree = jsonObject.getString(JsonConst.UPDIS_JSON_DEGREE);
-        }
-        if (jsonObject.has(JsonConst.UPDIS_JSON_GRADUATIONDATE)) {
-            personModel.graduationdate = jsonObject.getString(JsonConst.UPDIS_JSON_GRADUATIONDATE);
-        }
-        if (jsonObject.has(JsonConst.UPDIS_JSON_ENTRYDATE)) {
-            personModel.entrydate = jsonObject.getString(JsonConst.UPDIS_JSON_ENTRYDATE);
-        }
-        if (jsonObject.has(JsonConst.UPDIS_JSON_RANK)) {
-            personModel.rank = jsonObject.getString(JsonConst.UPDIS_JSON_RANK);
-        }
-        if (jsonObject.has(JsonConst.UPDIS_JSON_TITLES)) {
-            personModel.titles = jsonObject.getString(JsonConst.UPDIS_JSON_TITLES);
-        }
-        if (jsonObject.has(JsonConst.UPDIS_JSON_ICONURL)) {
-            personModel.iconurl = jsonObject.getString(JsonConst.UPDIS_JSON_ICONURL);
-        }
-        if (jsonObject.has(JsonConst.UPDIS_JSON_RESUME))
-            personModel.resume = jsonObject.getString(JsonConst.UPDIS_JSON_RESUME);
+			if (jsonObject.has("projectLeadReviewer")) {
+				activeTaskModel.setProjectLeadReviewer(jsonObject
+						.getString("projectLeadReviewer"));
+			}
 
-        if (jsonObject.has(JsonConst.UPDIS_JSON_MOBILEPHONE))
-            personModel.mobilePhone = jsonObject.getString(JsonConst.UPDIS_JSON_MOBILEPHONE);
-        if (jsonObject.has(JsonConst.UPDIS_JSON_OFFICEPHONE))
-            personModel.officePhone = jsonObject.getString(JsonConst.UPDIS_JSON_OFFICEPHONE);
-        if (jsonObject.has(JsonConst.UPDIS_JSON_HOMENUM))
-            personModel.homeNum = jsonObject.getString(JsonConst.UPDIS_JSON_HOMENUM);
-        if (jsonObject.has(JsonConst.UPDIS_JSON_MAIL))
-            personModel.mail = jsonObject.getString(JsonConst.UPDIS_JSON_MAIL);
+			if (jsonObject.has("projectLeadReviewApplyTime")) {
+				activeTaskModel.setProjectLeadReviewApplyTime(jsonObject
+						.getString("projectLeadReviewApplyTime"));
+			}
 
-        return personModel;
-    }
+		} catch (JSONException e) {
+			throw e;
+		}
+		return activeTaskModel;
+	}
 
-    public ArrayList<CommentModel> getCommentList(String result, PageFetcher pageFetch) throws JSONException {
-        if (result == null || result.trim().equals("")) {
-            return null;
-        }
-        ArrayList<CommentModel> arrayList = new ArrayList<CommentModel>();
-        try {
+	public void getDictData(String json) throws JSONException {
+		// TODO Auto-generated method stub
+		if (json == null || json.trim().equals("")) {
+			return;
+		}
+		try {
 
-            JSONObject jsonObj = new JSONObject(result);
-            JSONArray jsonArray = jsonObj.getJSONArray("comments");
+			JSONObject jsonObj = new JSONObject(json);
+			JSONObject tempObj = jsonObj.getJSONObject(JsonConst.DATA);
+			if (tempObj.has(JsonConst.UPDIS_JSON_DEPT)) {
+				JSONArray jsonArray = tempObj
+						.getJSONArray(JsonConst.UPDIS_JSON_DEPT);
+				if (jsonArray != null && jsonArray.length() > 0) {
+					int length = jsonArray.length();
+					for (int i = 0; i < length; i++) {
+						JSONObject jsonObject = (JSONObject) jsonArray.opt(i);
+						DictionaryModel dictionaryModel = new DictionaryModel();
+						dictionaryModel.dictKey = Constant.UPDIS_DIC_KEY_DEPT;
+						dictionaryModel.dictValue = jsonObject
+								.getString(JsonConst.UPDIS_JSON_DEPT_NAME);
+						List<DictionaryModel> nowList = new Select()
+								.from(DictionaryModel.class)
+								.where("dictKey='"
+										+ Constant.UPDIS_DIC_KEY_DEPT
+										+ "' and dictValue='"
+										+ jsonObject
+												.getString(JsonConst.UPDIS_JSON_DEPT_NAME)
+										+ "'").execute();
+						if (nowList != null && nowList.size() > 0) {
+							for (DictionaryModel temp : nowList) {
+								temp.delete();
+							}
+						}
+						dictionaryModel.save();
+					}
+				}
+			}
+			if (tempObj.has(JsonConst.UPDIS_JSON_SUBJECT)) {
+				JSONArray jsonArray = tempObj
+						.getJSONArray(JsonConst.UPDIS_JSON_SUBJECT);
+				if (jsonArray != null && jsonArray.length() > 0) {
+					int length = jsonArray.length();
+					for (int i = 0; i < length; i++) {
+						JSONObject jsonObject = (JSONObject) jsonArray.opt(i);
+						DictionaryModel dictionaryModel = new DictionaryModel();
+						dictionaryModel.dictKey = Constant.UPDIS_DIC_KEY_SUBJECT;
+						dictionaryModel.dictValue = jsonObject
+								.getString(JsonConst.UPDIS_JSON_SUBJECT_NAME);
+						List<DictionaryModel> nowList = new Select()
+								.from(DictionaryModel.class)
+								.where("dictKey='"
+										+ Constant.UPDIS_DIC_KEY_SUBJECT
+										+ "' and dictValue='"
+										+ jsonObject
+												.getString(JsonConst.UPDIS_JSON_SUBJECT_NAME)
+										+ "'").execute();
+						if (nowList != null && nowList.size() > 0) {
+							for (DictionaryModel temp : nowList) {
+								temp.delete();
+							}
+						}
+						dictionaryModel.save();
+					}
+				}
+			}
 
-            /** 开始循环解析 **/
-            int length = jsonArray.length();
-            for (int i = 0; i < length; i++) {
-                JSONObject jsonObject = (JSONObject) jsonArray.opt(i);
-                CommentModel commentModel = new CommentModel();
-                if (jsonObj.has(JsonConst.TOTAL_PAGE)) {
-                    int total = Integer.valueOf(jsonObj.getString(JsonConst.TOTAL_PAGE));
-                    if (pageFetch != null) {
-                        pageFetch.fetchPageInfo(total);
-                    }
-                }
-                if (jsonObject.has(JsonConst.UPDIS_JSON_COMMENT_COMMENTID)) {
-                    commentModel.commentId = jsonObject.getString(JsonConst.UPDIS_JSON_COMMENT_COMMENTID);
-                }
-                if (jsonObject.has(JsonConst.UPDIS_JSON_AUTHOR)) {
-                    commentModel.author = jsonObject.getString(JsonConst.UPDIS_JSON_AUTHOR);
-                    if (UIUtilities.isNull(commentModel.author)) {
-                        commentModel.author = "匿名用户";
-                    }
-                }
-                if (jsonObject.has(JsonConst.UPDIS_JSON_DATETIME)) {
-                    commentModel.datetime = jsonObject.getString(JsonConst.UPDIS_JSON_DATETIME);
-                }
-                if (jsonObject.has(JsonConst.UPDIS_JSON_ICONURL)) {
-                    commentModel.iconUrl = jsonObject.getString(JsonConst.UPDIS_JSON_ICONURL);
-                }
-                if (jsonObject.has(JsonConst.UPDIS_JSON_CONTENT)) {
-                    commentModel.content = jsonObject.getString(JsonConst.UPDIS_JSON_CONTENT);
-                }
-                if (jsonObject.has(JsonConst.UPDIS_JSON_COMMENT_ISANONYMOUS)) {
-                    commentModel.isAnonymous = jsonObject.getString(JsonConst.UPDIS_JSON_COMMENT_ISANONYMOUS);
-                }
-                arrayList.add(commentModel);
-            }
-        } catch (JSONException e) {
-            throw e;
-        }
-        return arrayList.isEmpty() ? null : arrayList;
-    }
+		} catch (JSONException e) {
+			throw e;
+		}
+	}
 
-    public ArrayList<ProjectModel> getProjectList(String result, PageFetcher pageFetch) {
-        if (result == null || result.trim().equals("")) {
-            return null;
-        }
-        ArrayList<ProjectModel> arrayList = new ArrayList<ProjectModel>();
-        try {
+	/**
+	 * 解析详情页面JSON数据
+	 */
+	public ResourceDetailModel getResourceDetail(String json)
+			throws JSONException {
+		// TODO Auto-generated method stub
+		if (json == null || json.trim().equals("")) {
+			return null;
+		}
+		ResourceDetailModel resourceDetailModel = new ResourceDetailModel();
+		try {
 
-            JSONObject jsonObj = new JSONObject(result);
-//            JSONObject jsonObj = new JSONObject("{\"data\":[{\"projectId\":3489,\"projectNumber\":\"2345\"," +
-//                    "\"projectName\":\"其实地方规划局考虑\",\"partyAName\":\"shen深圳市龙岗政府采购中心\",\"designDepartment\":\"院部\",\"projectLeaders\":[\"贝思琪\",\"丁年\",\"丁淑芳\"],\"projectScale\":\"sss\"},{\"projectId\":3488,\"projectNumber\":\"\",\"projectName\":\"是地方\",\"partyAName\":\"\",\"designDepartment\":\"\",\"projectLeaders\":[],\"projectScale\":\"\"}],\"success\":1}");
-            if (jsonObj.has("success")
-                    && jsonObj.getString("success").equals("1")
-                    && jsonObj.has("data")) {
-                JSONArray ja = jsonObj.getJSONArray("data");
-                for (int i = 0; i < ja.length(); i++) {
-                    JSONObject pjo = ja.getJSONObject(i);
-                    //{"projectId":3489,"projectNumber":"2345","projectName":"其实地方规划局考虑",
-                    // "partyAName":"shen深圳市龙岗政府采购中心","designDepartment":"院部",
-                    // "projectLeaders":["贝思琪","丁年","丁淑芳"],"projectScale":"sss"}
-                    ProjectModel pm = new ProjectModel();
-                    pm.setProjectId(getStringValue(pjo, "projectId"));
-                    pm.setProjectNumber(getStringValue(pjo, "projectNumber"));
-                    pm.setProjectName(getStringValue(pjo, "projectName"));
-                    pm.setPartyAName(getStringValue(pjo, "partyAName"));
-                    
-//                    String partyNames[] = pm.getPartyAName().split(",");
-//                    for (int j = 0; j < partyNames.length; j++) {
-//
-//                    }
-                    pm.setDesignDepartment(getStringValue(pjo, "designDepartment"));
-                    JSONArray la = pjo.getJSONArray("projectLeaders");
-                    if (la != null && la.length() > 0) {
-                        String leaderStr = "";
-                        for (int j = 0; j < la.length(); j++) {
-                            String leaderOne = (String) la.getString(j);
-                            leaderStr = leaderStr + leaderOne + (j == la.length() - 1 ? "" : ",");
-                        }
-                        pm.setProjectLeaders(leaderStr);
-                    }
-//                    pm.setProjectLeaders(getStringValue(pjo, "projectLeaders"));
-                    pm.setProjectScale(getStringValue(pjo, "projectScale"));
-                    pm.setActiveTaskId(getStringValue(pjo, "activeTaskId"));
-                    pm.setImported(getStringValue(pjo, "imported"));
-                    arrayList.add(pm);
-                }
-            }
+			JSONObject jsonObj = new JSONObject(json);
+			JSONObject tempObj = jsonObj.getJSONObject(JsonConst.DATA);
+			/** 开始详情数据解析 **/
+			if (tempObj.has(JsonConst.UPDIS_JSON_CONTENT)) {
+				JSONObject contentObj = tempObj
+						.getJSONObject(JsonConst.UPDIS_JSON_CONTENT);
+				if (contentObj != null && contentObj.length() > 0) {
+					if (contentObj.has(JsonConst.UPDIS_JSON_TITLE)) {
+						resourceDetailModel.title = contentObj
+								.getString(JsonConst.UPDIS_JSON_TITLE);
+					}
+					if (contentObj.has(JsonConst.UPDIS_JSON_DATE)) {
+						SimpleDateFormat sdf = new SimpleDateFormat(
+								"yyyy-MM-dd HH:mm:ss");
+						Date date = null;
+						try {
+							date = sdf.parse(contentObj
+									.getString(JsonConst.UPDIS_JSON_DATE));
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						resourceDetailModel.date = DateUtil.dateToString(date);
+					}
+					if (contentObj.has(JsonConst.UPDIS_JSON_DEPT)) {
+						resourceDetailModel.dept = contentObj
+								.getString(JsonConst.UPDIS_JSON_DEPT);
+					}
+					if (contentObj.has(JsonConst.UPDIS_JSON_AUTHOR)) {
+						resourceDetailModel.author = contentObj
+								.getString(JsonConst.UPDIS_JSON_AUTHOR);
+					}
+					if (contentObj.has(JsonConst.UPDIS_JSON_READCOUNT)) {
+						resourceDetailModel.readCount = contentObj
+								.getString(JsonConst.UPDIS_JSON_READCOUNT);
+					}
+					if (contentObj.has(JsonConst.UPDIS_JSON_CONTENT)) {
+						resourceDetailModel.content = contentObj
+								.getString(JsonConst.UPDIS_JSON_CONTENT);
+					}
+					if (contentObj.has(JsonConst.UPDIS_JSON_MESSAGEDETAILMETA)) {
+						resourceDetailModel.messageDetailMeta = contentObj
+								.getString(JsonConst.UPDIS_JSON_MESSAGEDETAILMETA);
+					}
+				}
+			}
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return arrayList.isEmpty() ? null : arrayList;
-    }
+			/** 开始解析评论数据 **/
+			if (tempObj.has(JsonConst.UPDIS_JSON_COMMENT)) {
+				try {
+					JSONArray commentArray = tempObj
+							.getJSONArray(JsonConst.UPDIS_JSON_COMMENT);
+					ArrayList<CommentModel> tempList = new ArrayList<CommentModel>();
+					if (commentArray != null && commentArray.length() > 0) {
+						for (int i = 0; i < commentArray.length(); i++) {
+							JSONObject temp = commentArray.getJSONObject(i);
+							if (temp != null) {
+								CommentModel commentModel = new CommentModel();
+								if (temp.has(JsonConst.UPDIS_JSON_COMMENT_COMMENTID)) {
+									commentModel.commentId = temp
+											.getString(JsonConst.UPDIS_JSON_COMMENT_COMMENTID);
+								}
+								if (temp.has(JsonConst.UPDIS_JSON_AUTHOR)) {
+									commentModel.author = temp
+											.getString(JsonConst.UPDIS_JSON_AUTHOR);
+									if (UIUtilities.isNull(commentModel.author)) {
+										commentModel.author = "匿名";
+									}
+								}
+								if (temp.has(JsonConst.UPDIS_JSON_DATETIME)) {
+									commentModel.datetime = temp
+											.getString(JsonConst.UPDIS_JSON_DATETIME);
+								}
+								if (temp.has(JsonConst.UPDIS_JSON_ICONURL)) {
+									commentModel.iconUrl = temp
+											.getString(JsonConst.UPDIS_JSON_ICONURL);
+								}
+								if (temp.has(JsonConst.UPDIS_JSON_CONTENT)) {
+									commentModel.content = temp
+											.getString(JsonConst.UPDIS_JSON_CONTENT);
+								}
+								if (temp.has(JsonConst.UPDIS_JSON_COMMENT_ISANONYMOUS)) {
+									commentModel.isAnonymous = temp
+											.getString(JsonConst.UPDIS_JSON_COMMENT_ISANONYMOUS);
+								}
 
-    protected static String getStringValue(JSONObject obj, String key) throws JSONException {
-        if (obj.has(key)) {
-            return obj.getString(key);
-        } else {
-            Log.d("sorry, the key [" + key + "] is nnnnullllll");
-            return "";
-        }
-    }
+								tempList.add(commentModel);
+							}
+						}
+						resourceDetailModel.commentList = tempList;
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+			/** 开始解析相关阅读 **/
+			if (tempObj.has(JsonConst.UPDIS_JSON_RELATED)) {
+				try {
+					JSONArray relatedArray = tempObj
+							.getJSONArray(JsonConst.UPDIS_JSON_RELATED);
+					ArrayList<ResourceModel> tempList = new ArrayList<ResourceModel>();
+					if (relatedArray != null && relatedArray.length() > 0) {
+						for (int i = 0; i < relatedArray.length(); i++) {
+							JSONObject temp = relatedArray.getJSONObject(i);
+							if (temp != null) {
+								ResourceModel resourceModel = getResourceModel(temp);
+								tempList.add(resourceModel);
+							}
+						}
+						resourceDetailModel.relatedList = tempList;
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+		} catch (JSONException e) {
+			throw e;
+		}
+		return resourceDetailModel;
+	}
+
+	/**
+	 * 通用解析列表数据JSON
+	 */
+	private ResourceModel getResourceModel(JSONObject jsonObject)
+			throws JSONException {
+		ResourceModel resourceModel = new ResourceModel();
+		if (jsonObject.has(JsonConst.UPDIS_JSON_CONTENT_ID)) {
+			resourceModel.contentId = jsonObject
+					.getString(JsonConst.UPDIS_JSON_CONTENT_ID);
+		}
+		if (jsonObject.has(JsonConst.UPDIS_JSON_TITLE)) {
+			resourceModel.title = jsonObject
+					.getString(JsonConst.UPDIS_JSON_TITLE);
+		}
+		if (jsonObject.has(JsonConst.UPDIS_JSON_SUBTITLE)) {
+			resourceModel.subTitle = jsonObject
+					.getString(JsonConst.UPDIS_JSON_SUBTITLE);
+		}
+		if (jsonObject.has(JsonConst.UPDIS_JSON_AUTHOR)) {
+			resourceModel.author = jsonObject
+					.getString(JsonConst.UPDIS_JSON_AUTHOR);
+		}
+		if (jsonObject.has(JsonConst.UPDIS_JSON_DATETIME)) {
+			resourceModel.dateTime = jsonObject
+					.getString(JsonConst.UPDIS_JSON_DATETIME);
+		}
+		if (jsonObject.has(JsonConst.UPDIS_JSON_ICONURL)) {
+			resourceModel.iconUrl = jsonObject
+					.getString(JsonConst.UPDIS_JSON_ICONURL);
+		}
+		if (jsonObject.has(JsonConst.UPDIS_JSON_READCOUNT)) {
+			resourceModel.readCount = jsonObject
+					.getString(JsonConst.UPDIS_JSON_READCOUNT);
+		}
+		if (jsonObject.has(JsonConst.UPDIS_JSON_COMMENTS)) {
+			resourceModel.comments = jsonObject
+					.getString(JsonConst.UPDIS_JSON_COMMENTS);
+		}
+		if (jsonObject.has(JsonConst.UPDIS_JSON_MESSAGELISTMETA)) {
+			resourceModel.messageListMeta = jsonObject
+					.getString(JsonConst.UPDIS_JSON_MESSAGELISTMETA);
+		}
+		return resourceModel;
+	}
+
+	public ArrayList<PersonModel> getPersonList(String json,
+			PageFetcher pageFetch, String flag) throws JSONException {
+		if (json == null || json.trim().equals("")) {
+			return null;
+		}
+		ArrayList<PersonModel> arrayList = new ArrayList<PersonModel>();
+		try {
+
+			if (flag.equals("1")) {
+				JSONObject jsonObj = new JSONObject(json);
+				JSONArray jsonArray = jsonObj.getJSONArray(JsonConst.DATA);
+
+				/** 开始循环解析 **/
+				int length = jsonArray.length();
+				for (int i = 0; i < length; i++) {
+					JSONObject jsonObject = (JSONObject) jsonArray.opt(i);
+					PersonModel personModel;
+					if (jsonObj.has(JsonConst.TOTAL_PAGE)) {
+						int total = Integer.valueOf(jsonObj
+								.getString(JsonConst.TOTAL_PAGE));
+						if (pageFetch != null) {
+							pageFetch.fetchPageInfo(total);
+						}
+					}
+					personModel = getPersonModel(jsonObject);
+
+					if (personModel != null)
+						arrayList.add(personModel);
+				}
+			} else {
+				JSONObject jsonObj = new JSONObject(json);
+				JSONObject dataObj = jsonObj.getJSONObject(JsonConst.DATA);
+				PersonModel personModel = getPersonModel(dataObj);
+				if (personModel != null)
+					arrayList.add(personModel);
+			}
+		} catch (JSONException e) {
+			throw e;
+		}
+		return arrayList.isEmpty() ? null : arrayList;
+	}
+
+	/**
+	 * 解析人员JSON
+	 * 
+	 * @param jsonObject
+	 * @return
+	 * @throws JSONException
+	 */
+	private PersonModel getPersonModel(JSONObject jsonObject)
+			throws JSONException {
+		PersonModel personModel = new PersonModel();
+		if (jsonObject.has(JsonConst.UPDIS_JSON_USERID)) {
+			personModel.userid = jsonObject
+					.getString(JsonConst.UPDIS_JSON_USERID);
+		}
+		if (jsonObject.has(JsonConst.UPDIS_JSON_NAME)) {
+			personModel.name = jsonObject.getString(JsonConst.UPDIS_JSON_NAME);
+		}
+		if (jsonObject.has(JsonConst.UPDIS_JSON_DEPT)) {
+			personModel.dept = jsonObject.getString(JsonConst.UPDIS_JSON_DEPT);
+		}
+		if (jsonObject.has(JsonConst.UPDIS_JSON_BIRTHDAY)) {
+			personModel.birthday = jsonObject
+					.getString(JsonConst.UPDIS_JSON_BIRTHDAY);
+		}
+		if (jsonObject.has(JsonConst.UPDIS_JSON_GENDER)) {
+			personModel.gender = jsonObject
+					.getString(JsonConst.UPDIS_JSON_GENDER);
+		}
+		if (jsonObject.has(JsonConst.UPDIS_JSON_SPECIALTY)) {
+			personModel.specialty = jsonObject
+					.getString(JsonConst.UPDIS_JSON_SPECIALTY);
+		}
+		if (jsonObject.has(JsonConst.UPDIS_JSON_EDUCATIONAL)) {
+			personModel.educational = jsonObject
+					.getString(JsonConst.UPDIS_JSON_EDUCATIONAL);
+		}
+		if (jsonObject.has(JsonConst.UPDIS_JSON_DEGREE)) {
+			personModel.degree = jsonObject
+					.getString(JsonConst.UPDIS_JSON_DEGREE);
+		}
+		if (jsonObject.has(JsonConst.UPDIS_JSON_GRADUATIONDATE)) {
+			personModel.graduationdate = jsonObject
+					.getString(JsonConst.UPDIS_JSON_GRADUATIONDATE);
+		}
+		if (jsonObject.has(JsonConst.UPDIS_JSON_ENTRYDATE)) {
+			personModel.entrydate = jsonObject
+					.getString(JsonConst.UPDIS_JSON_ENTRYDATE);
+		}
+		if (jsonObject.has(JsonConst.UPDIS_JSON_RANK)) {
+			personModel.rank = jsonObject.getString(JsonConst.UPDIS_JSON_RANK);
+		}
+		if (jsonObject.has(JsonConst.UPDIS_JSON_TITLES)) {
+			personModel.titles = jsonObject
+					.getString(JsonConst.UPDIS_JSON_TITLES);
+		}
+		if (jsonObject.has(JsonConst.UPDIS_JSON_ICONURL)) {
+			personModel.iconurl = jsonObject
+					.getString(JsonConst.UPDIS_JSON_ICONURL);
+		}
+		if (jsonObject.has(JsonConst.UPDIS_JSON_RESUME))
+			personModel.resume = jsonObject
+					.getString(JsonConst.UPDIS_JSON_RESUME);
+
+		if (jsonObject.has(JsonConst.UPDIS_JSON_MOBILEPHONE))
+			personModel.mobilePhone = jsonObject
+					.getString(JsonConst.UPDIS_JSON_MOBILEPHONE);
+		if (jsonObject.has(JsonConst.UPDIS_JSON_OFFICEPHONE))
+			personModel.officePhone = jsonObject
+					.getString(JsonConst.UPDIS_JSON_OFFICEPHONE);
+		if (jsonObject.has(JsonConst.UPDIS_JSON_HOMENUM))
+			personModel.homeNum = jsonObject
+					.getString(JsonConst.UPDIS_JSON_HOMENUM);
+		if (jsonObject.has(JsonConst.UPDIS_JSON_MAIL))
+			personModel.mail = jsonObject.getString(JsonConst.UPDIS_JSON_MAIL);
+
+		return personModel;
+	}
+
+	public ArrayList<CommentModel> getCommentList(String result,
+			PageFetcher pageFetch) throws JSONException {
+		if (result == null || result.trim().equals("")) {
+			return null;
+		}
+		ArrayList<CommentModel> arrayList = new ArrayList<CommentModel>();
+		try {
+
+			JSONObject jsonObj = new JSONObject(result);
+			JSONArray jsonArray = jsonObj.getJSONArray("comments");
+
+			/** 开始循环解析 **/
+			int length = jsonArray.length();
+			for (int i = 0; i < length; i++) {
+				JSONObject jsonObject = (JSONObject) jsonArray.opt(i);
+				CommentModel commentModel = new CommentModel();
+				if (jsonObj.has(JsonConst.TOTAL_PAGE)) {
+					int total = Integer.valueOf(jsonObj
+							.getString(JsonConst.TOTAL_PAGE));
+					if (pageFetch != null) {
+						pageFetch.fetchPageInfo(total);
+					}
+				}
+				if (jsonObject.has(JsonConst.UPDIS_JSON_COMMENT_COMMENTID)) {
+					commentModel.commentId = jsonObject
+							.getString(JsonConst.UPDIS_JSON_COMMENT_COMMENTID);
+				}
+				if (jsonObject.has(JsonConst.UPDIS_JSON_AUTHOR)) {
+					commentModel.author = jsonObject
+							.getString(JsonConst.UPDIS_JSON_AUTHOR);
+					if (UIUtilities.isNull(commentModel.author)) {
+						commentModel.author = "匿名用户";
+					}
+				}
+				if (jsonObject.has(JsonConst.UPDIS_JSON_DATETIME)) {
+					commentModel.datetime = jsonObject
+							.getString(JsonConst.UPDIS_JSON_DATETIME);
+				}
+				if (jsonObject.has(JsonConst.UPDIS_JSON_ICONURL)) {
+					commentModel.iconUrl = jsonObject
+							.getString(JsonConst.UPDIS_JSON_ICONURL);
+				}
+				if (jsonObject.has(JsonConst.UPDIS_JSON_CONTENT)) {
+					commentModel.content = jsonObject
+							.getString(JsonConst.UPDIS_JSON_CONTENT);
+				}
+				if (jsonObject.has(JsonConst.UPDIS_JSON_COMMENT_ISANONYMOUS)) {
+					commentModel.isAnonymous = jsonObject
+							.getString(JsonConst.UPDIS_JSON_COMMENT_ISANONYMOUS);
+				}
+				arrayList.add(commentModel);
+			}
+		} catch (JSONException e) {
+			throw e;
+		}
+		return arrayList.isEmpty() ? null : arrayList;
+	}
+
+	public ArrayList<ProjectModel> getProjectList(String result,
+			PageFetcher pageFetch) {
+		if (result == null || result.trim().equals("")) {
+			return null;
+		}
+		ArrayList<ProjectModel> arrayList = new ArrayList<ProjectModel>();
+		try {
+
+			JSONObject jsonObj = new JSONObject(result);
+			// JSONObject jsonObj = new
+			// JSONObject("{\"data\":[{\"projectId\":3489,\"projectNumber\":\"2345\","
+			// +
+			// "\"projectName\":\"其实地方规划局考虑\",\"partyAName\":\"shen深圳市龙岗政府采购中心\",\"designDepartment\":\"院部\",\"projectLeaders\":[\"贝思琪\",\"丁年\",\"丁淑芳\"],\"projectScale\":\"sss\"},{\"projectId\":3488,\"projectNumber\":\"\",\"projectName\":\"是地方\",\"partyAName\":\"\",\"designDepartment\":\"\",\"projectLeaders\":[],\"projectScale\":\"\"}],\"success\":1}");
+			if (jsonObj.has("success")
+					&& jsonObj.getString("success").equals("1")
+					&& jsonObj.has("data")) {
+				JSONArray ja = jsonObj.getJSONArray("data");
+				for (int i = 0; i < ja.length(); i++) {
+					JSONObject pjo = ja.getJSONObject(i);
+					// {"projectId":3489,"projectNumber":"2345","projectName":"其实地方规划局考虑",
+					// "partyAName":"shen深圳市龙岗政府采购中心","designDepartment":"院部",
+					// "projectLeaders":["贝思琪","丁年","丁淑芳"],"projectScale":"sss"}
+					ProjectModel pm = new ProjectModel();
+					pm.setProjectId(getStringValue(pjo, "projectId"));
+					pm.setProjectNumber(getStringValue(pjo, "projectNumber"));
+					pm.setProjectName(getStringValue(pjo, "projectName"));
+					pm.setPartyAName(getStringValue(pjo, "partyAName"));
+
+					// String partyNames[] = pm.getPartyAName().split(",");
+					// for (int j = 0; j < partyNames.length; j++) {
+					//
+					// }
+					pm.setDesignDepartment(getStringValue(pjo,
+							"designDepartment"));
+					JSONArray la = pjo.getJSONArray("projectLeaders");
+					if (la != null && la.length() > 0) {
+						String leaderStr = "";
+						for (int j = 0; j < la.length(); j++) {
+							String leaderOne = (String) la.getString(j);
+							leaderStr = leaderStr + leaderOne
+									+ (j == la.length() - 1 ? "" : ",");
+						}
+						pm.setProjectLeaders(leaderStr);
+					}
+					// pm.setProjectLeaders(getStringValue(pjo,
+					// "projectLeaders"));
+					pm.setProjectScale(getStringValue(pjo, "projectScale"));
+					pm.setActiveTaskId(getStringValue(pjo, "activeTaskId"));
+					pm.setImported(getStringValue(pjo, "imported"));
+					arrayList.add(pm);
+				}
+			}
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return arrayList.isEmpty() ? null : arrayList;
+	}
+
+	protected static String getStringValue(JSONObject obj, String key)
+			throws JSONException {
+		if (obj.has(key)) {
+			return obj.getString(key);
+		} else {
+			Log.d("sorry, the key [" + key + "] is nnnnullllll");
+			return "";
+		}
+	}
 }

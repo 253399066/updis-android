@@ -525,11 +525,29 @@
     <string name="shiFouWaiBao">是否外包</string>
     <string name="shiZhengPeiTao">市政配套</string>
     <string name="duoFangHeTong">多方合同</string>
-    <string name="directorReviewer">评审人</string>
-    <string name="directorReviewerApplyTime">评审时间</string>
+    <string name="directorReviewer">所长签字</string>
+    <string name="directorReviewerApplyTime">签字时间</string>
+    
+    <string name="pingShenFangShi">评审方式</string>
+	<string name="yinFaCuoShi">引发措施记录</string>
+	<string name="renWuYaoQiu">任务要求</string>
+	<string name="chengJieBuMen">承接部门</string>
+	<string name="jingYingShiReviewer">经营室签字</string>
+	<string name="jingYingShiReviewApplyTime">签字时间</string>
+	<string name="projectCategory">类别</string>
+	<string name="guanLiJiBie">项目管理级别</string>
+	<string name="projectLead">项目负责人</string>
+	<string name="zhuGuanZongShi">主管总师</string>
+	<string name="zongShiShiReviewer">总师室签字</string>
+	<string name="zongShiShiReviewApplyTime">签字时间</string>
+	<string name="projectLeadReviewer">负责人签字</string>
+	<string name="projectLeadReviewApplyTime">签字时间</string>
+    
     <string name="showButton">不显示所长审批按钮</string>
     <string name="no_active_task">没有项目下达单</string>
     <string name="suozhangAudit">所长审批通过</string>
+    <string name="rejectButton">打回</string>
+    <string name="projectBeginButton">项目启动</string>
     <string name="audit_confirm">确认审批通过么?</string>
     <!-- 项目下达单 END -->
 

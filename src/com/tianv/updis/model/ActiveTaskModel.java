@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by lm3515 on 14-1-22.
  */
 public class ActiveTaskModel implements Serializable {
-	
+
 	private static final long serialVersionUID = 2744582267077933471L;
 	private String state;
 	private String partner;
@@ -31,6 +31,23 @@ public class ActiveTaskModel implements Serializable {
 	private String directorReviewer;
 	private String directorReviewerApplyTime;
 	private String showButton;
+
+	private String stateId;
+	private String pingShenFangShi;
+	private String yinFaCuoShi;
+	private String renWuYaoQiu;
+	private String chengJieBuMen;
+	private String jingYingShiReviewer;
+	private String jingYingShiReviewApplyTime;
+	private String projectCategory;
+	private String guanLiJiBie;
+	private String projectLead;
+	private String zhuGuanZongShi;
+	private String zongShiShiReviewer;
+	private String zongShiShiReviewApplyTime;
+	private String showProjectLeadReviewAndRejectButton;
+	private String projectLeadReviewer;
+	private String projectLeadReviewApplyTime;
 
 	public String getState() {
 		return state;
@@ -214,6 +231,135 @@ public class ActiveTaskModel implements Serializable {
 
 	public void setShowButton(String showButton) {
 		this.showButton = showButton;
+	}
+
+	public String getStateId() {
+		return stateId;
+	}
+
+	public void setStateId(String stateId) {
+		this.stateId = stateId;
+	}
+
+	public String getPingShenFangShi() {
+		return pingShenFangShi;
+	}
+
+	public void setPingShenFangShi(String pingShenFangShi) {
+		this.pingShenFangShi = pingShenFangShi;
+	}
+
+	public String getYinFaCuoShi() {
+		return yinFaCuoShi;
+	}
+
+	public void setYinFaCuoShi(String yinFaCuoShi) {
+		this.yinFaCuoShi = yinFaCuoShi;
+	}
+
+	public String getRenWuYaoQiu() {
+		return renWuYaoQiu;
+	}
+
+	public void setRenWuYaoQiu(String renWuYaoQiu) {
+		this.renWuYaoQiu = renWuYaoQiu;
+	}
+
+	public String getChengJieBuMen() {
+		return chengJieBuMen;
+	}
+
+	public void setChengJieBuMen(String chengJieBuMen) {
+		this.chengJieBuMen = chengJieBuMen;
+	}
+
+	public String getJingYingShiReviewer() {
+		return jingYingShiReviewer;
+	}
+
+	public void setJingYingShiReviewer(String jingYingShiReviewer) {
+		this.jingYingShiReviewer = jingYingShiReviewer;
+	}
+
+	public String getJingYingShiReviewApplyTime() {
+		return jingYingShiReviewApplyTime;
+	}
+
+	public void setJingYingShiReviewApplyTime(String jingYingShiReviewApplyTime) {
+		this.jingYingShiReviewApplyTime = jingYingShiReviewApplyTime;
+	}
+
+	public String getProjectCategory() {
+		return projectCategory;
+	}
+
+	public void setProjectCategory(String projectCategory) {
+		this.projectCategory = projectCategory;
+	}
+
+	public String getGuanLiJiBie() {
+		return guanLiJiBie;
+	}
+
+	public void setGuanLiJiBie(String guanLiJiBie) {
+		this.guanLiJiBie = guanLiJiBie;
+	}
+
+	public String getProjectLead() {
+		return projectLead;
+	}
+
+	public void setProjectLead(String projectLead) {
+		this.projectLead = projectLead;
+	}
+
+	public String getZhuGuanZongShi() {
+		return zhuGuanZongShi;
+	}
+
+	public void setZhuGuanZongShi(String zhuGuanZongShi) {
+		this.zhuGuanZongShi = zhuGuanZongShi;
+	}
+
+	public String getZongShiShiReviewer() {
+		return zongShiShiReviewer;
+	}
+
+	public void setZongShiShiReviewer(String zongShiShiReviewer) {
+		this.zongShiShiReviewer = zongShiShiReviewer;
+	}
+
+	public String getZongShiShiReviewApplyTime() {
+		return zongShiShiReviewApplyTime;
+	}
+
+	public void setZongShiShiReviewApplyTime(String zongShiShiReviewApplyTime) {
+		this.zongShiShiReviewApplyTime = zongShiShiReviewApplyTime;
+	}
+
+	public String getShowProjectLeadReviewAndRejectButton() {
+		return showProjectLeadReviewAndRejectButton;
+	}
+
+	public void setShowProjectLeadReviewAndRejectButton(
+			String showProjectLeadReviewAndRejectButton) {
+		this.showProjectLeadReviewAndRejectButton = showProjectLeadReviewAndRejectButton;
+	}
+
+	public String getProjectLeadReviewer() {
+		return projectLeadReviewer;
+	}
+
+	public void setProjectLeadReviewer(String projectLeadReviewer) {
+		this.projectLeadReviewer = projectLeadReviewer;
+	}
+
+	public String getProjectLeadReviewApplyTime() {
+		return projectLeadReviewApplyTime;
+	}
+
+	public void setProjectLeadReviewApplyTime(String projectLeadReviewApplyTime) {
+		this.projectLeadReviewApplyTime = projectLeadReviewApplyTime;
 	}
 
 }
