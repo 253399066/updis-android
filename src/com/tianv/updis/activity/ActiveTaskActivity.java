@@ -487,7 +487,7 @@ public class ActiveTaskActivity extends Activity implements OnClickListener, IMe
 		// Templates.
 		mProgressDialog = new ProgressDialog(this);
 		mProgressDialog.setProgressStyle(0);
-		mProgressDialog.setMessage("正在加载数据,请稍后...");
+		mProgressDialog.setMessage("正在加载数据,请稍候...");
 		mProgressDialog.setIndeterminate(true);
 		mProgressDialog.setCancelable(false);
 		mProgressDialog.show();
