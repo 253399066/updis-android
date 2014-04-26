@@ -1,12 +1,20 @@
 package com.tianv.updis.activity;
 
+import java.net.URLEncoder;
+
 import android.app.Activity;
+import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,7 +34,9 @@ import com.tianv.updis.task.TaskCallBack;
  */
 public class ActiveTaskActivity extends Activity implements OnClickListener, IMessageDialogListener {
 	// private TextView mProjectNameTv;
-	private int AUDIT_CONFIRM = 10011;
+	private int AUDIT_CONFIRM_1 = 10011;
+	private int AUDIT_CONFIRM_2 = 10012;
+	private int AUDIT_CONFIRM_3 = 10013;
 	/**
 	 * 页面弹出对话框
 	 */
@@ -67,19 +77,17 @@ public class ActiveTaskActivity extends Activity implements OnClickListener, IMe
 	private TextView zhuGuanZongShi;
 	private TextView zongShiShiReviewer;
 	private TextView zongShiShiReviewApplyTime;
-	//private TextView showProjectLeadReviewAndRejectButton;
+	// private TextView showProjectLeadReviewAndRejectButton;
 	private TextView projectLeadReviewer;
 	private TextView projectLeadReviewApplyTime;
 
-	
-	private RelativeLayout greaterThan_3_1,greaterThan_3_2,greaterThan_4_1,greaterThan_4_2,
-	greaterThan_4_3,greaterThan_4_4,greaterThan_4_5,greaterThan_4_6,greaterThan_5_1,greaterThan_5_2,
-	greaterThan_5_3,greaterThan_5_4,greaterThan_5_5,greaterThan_5_6,greaterThan_6_1,greaterThan_6_2;
-	
+	private RelativeLayout greaterThan_3_1, greaterThan_3_2, greaterThan_4_1, greaterThan_4_2, greaterThan_4_3, greaterThan_4_4, greaterThan_4_5, greaterThan_4_6, greaterThan_5_1,
+			greaterThan_5_2, greaterThan_5_3, greaterThan_5_4, greaterThan_5_5, greaterThan_5_6, greaterThan_6_1, greaterThan_6_2;//, projectBeginButtonLayout;
+	private LinearLayout rejectButtonLayout;
 	private ActiveTask activeTask;
 	private ReviewActiveTask reviewActiveTask;
 	private ProgressDialog mProgressDialog;
-	private Button suozhangAudit,rejectButton,projectBeginButton;
+	private Button suozhangAudit, rejectButton, projectBeginButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -103,30 +111,99 @@ public class ActiveTaskActivity extends Activity implements OnClickListener, IMe
 		projectBeginButton.setOnClickListener(this);
 	}
 
+	public void showEditTextInfo(int requestCode, Context context, String title, IMessageDialogListener listener) {
+
+		Builder builder = mDialog.createDialogBuilder(title, null);
+		final LayoutInflater factory = LayoutInflater.from(context);
+		final View textEntryView = factory.inflate(R.layout.dialog_edittext, null);
+		builder.setView(textEntryView);
+		if (listener != null) {
+			builder.setPositiveButton(mDialog.sCaptionOk, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {
+					EditText reject_comment = (EditText) textEntryView.findViewById(R.id.reject_comment);
+					showProgressDialog();
+					ProjectModel pm = (ProjectModel) getIntent().getSerializableExtra(Constant.EXTRA_PROJECTMODEL);
+					String comment =  URLEncoder.encode(reject_comment.getText().toString());
+					String urlParam = Constant.INTERFACE_REVIEW_ACTIVETASK + "projectLeadRejectActiveTask?id=" + pm.getActiveTaskId() + "&comment="
+							+ comment;
+					reviewActiveTask = new ReviewActiveTask(ActiveTaskActivity.this, getProjectRejectActiveTaskResult(), urlParam);
+					reviewActiveTask.execute();
+				}
+			});
+			builder.setNegativeButton(mDialog.sCaptionCancel, new DialogOnClickListener(requestCode, 2, listener));
+		} else {
+			builder.setPositiveButton(mDialog.sCaptionOk, null);
+			builder.setPositiveButton(mDialog.sCaptionCancel, null);
+		}
+
+		builder.create().show();
+	}
+
+	private class DialogOnClickListener implements DialogInterface.OnClickListener {
+
+		private int requestCode;
+
+		private int clickid = 0;
+
+		private IMessageDialogListener listener;
+
+		public DialogOnClickListener(int requestCode, int clickid, IMessageDialogListener listener) {
+			this.requestCode = requestCode;
+			this.clickid = clickid;
+			this.listener = listener;
+		}
+
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			// TODO Auto-generated method stub
+			if (this.listener != null) {
+				switch (this.clickid) {
+				case 0:
+					this.listener.onDialogClickClose(this.requestCode);
+					break;
+				case 1:
+					this.listener.onDialogClickOk(this.requestCode);
+					break;
+				case 2:
+					this.listener.onDialogClickCancel(this.requestCode);
+					break;
+				}
+			}
+
+		}
+
+	}
+
 	@Override
 	public void onClick(View arg0) {
 		switch (arg0.getId()) {
-			case R.id.suozhangAudit:
-				mDialog.showConfirm(AUDIT_CONFIRM, getString(R.string.suozhangAudit), getString(R.string.audit_confirm), this);
-				break;
-			case R.id.rejectButton:
-				mDialog.showConfirm(AUDIT_CONFIRM, getString(R.string.suozhangAudit), getString(R.string.audit_confirm), this);
-				break;
-			case R.id.projectBeginButton:
-				mDialog.showConfirm(AUDIT_CONFIRM, getString(R.string.suozhangAudit), getString(R.string.audit_confirm), this);
-				break;
+		case R.id.suozhangAudit:
+			mDialog.showConfirm(AUDIT_CONFIRM_1, getString(R.string.suozhangAudit), getString(R.string.audit_confirm), this);
+			break;
+		case R.id.rejectButton:
+			showEditTextInfo(AUDIT_CONFIRM_2, ActiveTaskActivity.this, getString(R.string.rejectButton), this);
+			break;
+		case R.id.projectBeginButton:
+			mDialog.showConfirm(AUDIT_CONFIRM_3, getString(R.string.projectBeginButton), getString(R.string.projectBegin_confirm), this);
+			break;
 		}
-		
 
 	}
 
 	@Override
 	public void onDialogClickOk(int requestCode) {
 		// TODO Auto-generated method stub
-		if (requestCode == AUDIT_CONFIRM) {
+		if (requestCode == AUDIT_CONFIRM_1) {// 所长审核
 			showProgressDialog();
 			ProjectModel pm = (ProjectModel) getIntent().getSerializableExtra(Constant.EXTRA_PROJECTMODEL);
-			reviewActiveTask = new ReviewActiveTask(ActiveTaskActivity.this, getReviewActiveTaskResult(), pm.getActiveTaskId());
+			String urlParam = Constant.INTERFACE_REVIEW_ACTIVETASK + "reviewActiveTask?id=" + pm.getActiveTaskId();
+			reviewActiveTask = new ReviewActiveTask(ActiveTaskActivity.this, getReviewActiveTaskResult(), urlParam);
+			reviewActiveTask.execute();
+		} else if (requestCode == AUDIT_CONFIRM_3) {// 项目启动
+			showProgressDialog();
+			ProjectModel pm = (ProjectModel) getIntent().getSerializableExtra(Constant.EXTRA_PROJECTMODEL);
+			String urlParam = Constant.INTERFACE_REVIEW_ACTIVETASK + "projectLeadReviewActiveTask?id=" + pm.getActiveTaskId();
+			reviewActiveTask = new ReviewActiveTask(ActiveTaskActivity.this, getProjectBeginActiveTaskResult(), urlParam);
 			reviewActiveTask.execute();
 		}
 	}
@@ -176,6 +253,84 @@ public class ActiveTaskActivity extends Activity implements OnClickListener, IMe
 					mDialog.showInfo("所长审核", "提交成功");
 				} else {
 					mDialog.showInfo("所长审核", "提交失败");
+				}
+			}
+		};
+		return taskCallBask;
+	}
+
+	private TaskCallBack<Void, String> getProjectRejectActiveTaskResult() {
+		TaskCallBack<Void, String> taskCallBask = new TaskCallBack<Void, String>() {
+			@Override
+			public void beforeDoingTask() {
+
+			}
+
+			@Override
+			public void doingTask() {
+
+			}
+
+			@Override
+			public void onCancel() {
+
+			}
+
+			@Override
+			public void doingProgress(Void... fParam) {
+			}
+
+			@Override
+			public void endTask(String eParam, AppException appException) {
+				if (mProgressDialog != null && mProgressDialog.isShowing()) {
+					mProgressDialog.dismiss();
+					mProgressDialog = null;
+				}
+				MessageDialog mDialog = new MessageDialog(ActiveTaskActivity.this);
+				if ("1".equals(eParam)) {
+					initView();
+					mDialog.showInfo("打回", "提交成功");
+				} else {
+					mDialog.showInfo("打回", "提交失败");
+				}
+			}
+		};
+		return taskCallBask;
+	}
+
+	private TaskCallBack<Void, String> getProjectBeginActiveTaskResult() {
+		TaskCallBack<Void, String> taskCallBask = new TaskCallBack<Void, String>() {
+			@Override
+			public void beforeDoingTask() {
+
+			}
+
+			@Override
+			public void doingTask() {
+
+			}
+
+			@Override
+			public void onCancel() {
+
+			}
+
+			@Override
+			public void doingProgress(Void... fParam) {
+			}
+
+			@Override
+			public void endTask(String eParam, AppException appException) {
+				if (mProgressDialog != null && mProgressDialog.isShowing()) {
+					mProgressDialog.dismiss();
+					mProgressDialog = null;
+				}
+				MessageDialog mDialog = new MessageDialog(ActiveTaskActivity.this);
+				if ("1".equals(eParam)) {
+					initView();
+					mDialog.showInfo("项目启动", "提交成功");
+				} else {
+					mDialog.showInfo("项目启动", "提交失败");
 				}
 			}
 		};
@@ -239,13 +394,11 @@ public class ActiveTaskActivity extends Activity implements OnClickListener, IMe
 																							// 否
 
 					if ("0".equals(eParam.getShowButton())) {
-						suozhangAudit.setVisibility(View.INVISIBLE);
+						suozhangAudit.setVisibility(View.GONE);
 					}
-					
-					eParam.setShowProjectLeadReviewAndRejectButton("1");
 					if ("0".equals(eParam.getShowProjectLeadReviewAndRejectButton())) {
-						rejectButton.setVisibility(View.INVISIBLE);
-						projectBeginButton.setVisibility(View.INVISIBLE);
+						rejectButtonLayout.setVisibility(View.GONE);
+						//projectBeginButtonLayout.setVisibility(View.GONE);
 					}
 
 					// ------------------------ >=3
@@ -254,9 +407,9 @@ public class ActiveTaskActivity extends Activity implements OnClickListener, IMe
 						greaterThan_3_2.setVisibility(View.VISIBLE);
 						directorReviewer.setText(getNotBlank(eParam.getDirectorReviewer()));
 						directorReviewerApplyTime.setText(getNotBlank(eParam.getDirectorReviewerApplyTime()));
-						
+
 					}
-					
+
 					// ------------------------ >=4
 					if (Integer.parseInt(eParam.getStateId()) >= 4) {
 						greaterThan_4_1.setVisibility(View.VISIBLE);
@@ -271,9 +424,9 @@ public class ActiveTaskActivity extends Activity implements OnClickListener, IMe
 						chengJieBuMen.setText(getNotBlank(eParam.getChengJieBuMen()));
 						jingYingShiReviewer.setText(getNotBlank(eParam.getJingYingShiReviewer()));
 						jingYingShiReviewApplyTime.setText(getNotBlank(eParam.getJingYingShiReviewApplyTime()));
-						
+
 					}
-					
+
 					// ------------------------ >=5
 					if (Integer.parseInt(eParam.getStateId()) >= 5) {
 						greaterThan_5_1.setVisibility(View.VISIBLE);
@@ -288,21 +441,18 @@ public class ActiveTaskActivity extends Activity implements OnClickListener, IMe
 						zhuGuanZongShi.setText(getNotBlank(eParam.getZhuGuanZongShi()));
 						zongShiShiReviewer.setText(getNotBlank(eParam.getZongShiShiReviewer()));
 						zongShiShiReviewApplyTime.setText(getNotBlank(eParam.getZongShiShiReviewApplyTime()));
-						if ("0".equals(eParam.getShowProjectLeadReviewAndRejectButton())) {
-							rejectButton.setVisibility(View.INVISIBLE);
-							projectBeginButton.setVisibility(View.INVISIBLE);
-						}
+
 					}
-					
+
 					// ------------------------ >=6
-					if (Integer.parseInt(eParam.getStateId()) >= 5) {
+					if (Integer.parseInt(eParam.getStateId()) >= 6) {
 						greaterThan_6_1.setVisibility(View.VISIBLE);
 						greaterThan_6_2.setVisibility(View.VISIBLE);
 						projectLeadReviewer.setText(getNotBlank(eParam.getProjectLeadReviewer()));
 						projectLeadReviewApplyTime.setText(getNotBlank(eParam.getProjectLeadReviewApplyTime()));
-						
+
 					}
-					
+
 					// showButton; // String 0: 不显示所长审批按钮; 1:显示
 				}
 			}
@@ -375,24 +525,24 @@ public class ActiveTaskActivity extends Activity implements OnClickListener, IMe
 		shiZhengPeiTao = (TextView) findViewById(R.id.shiZhengPeiTao); // 市政配套
 																		// 0:否
 		duoFangHeTong = (TextView) findViewById(R.id.duoFangHeTong); // 多方合同 0:否
-		
+
 		suozhangAudit = (Button) findViewById(R.id.suozhangAudit);
 		rejectButton = (Button) findViewById(R.id.rejectButton);
 		projectBeginButton = (Button) findViewById(R.id.projectBeginButton);
 		if (mDialog == null) {
 			mDialog = new MessageDialog(this);
 		}
-		
+
 		directorReviewer = (TextView) findViewById(R.id.directorReviewer); // 评审人评审时间
 		directorReviewerApplyTime = (TextView) findViewById(R.id.directorReviewerApplyTime); // 评审时间
-		
+
 		pingShenFangShi = (TextView) findViewById(R.id.pingShenFangShi);
 		yinFaCuoShi = (TextView) findViewById(R.id.yinFaCuoShi);
 		renWuYaoQiu = (TextView) findViewById(R.id.renWuYaoQiu);
 		chengJieBuMen = (TextView) findViewById(R.id.chengJieBuMen);
 		jingYingShiReviewer = (TextView) findViewById(R.id.jingYingShiReviewer);
 		jingYingShiReviewApplyTime = (TextView) findViewById(R.id.jingYingShiReviewApplyTime);
-		
+
 		projectCategory = (TextView) findViewById(R.id.projectCategory);
 		guanLiJiBie = (TextView) findViewById(R.id.guanLiJiBie);
 		projectLead = (TextView) findViewById(R.id.projectLead);
@@ -402,8 +552,7 @@ public class ActiveTaskActivity extends Activity implements OnClickListener, IMe
 
 		projectLeadReviewer = (TextView) findViewById(R.id.projectLeadReviewer);
 		projectLeadReviewApplyTime = (TextView) findViewById(R.id.projectLeadReviewApplyTime);
-		
-		
+
 		greaterThan_3_1 = (RelativeLayout) findViewById(R.id.greaterThan_3_1);
 		greaterThan_3_2 = (RelativeLayout) findViewById(R.id.greaterThan_3_2);
 		greaterThan_4_1 = (RelativeLayout) findViewById(R.id.greaterThan_4_1);
@@ -412,17 +561,20 @@ public class ActiveTaskActivity extends Activity implements OnClickListener, IMe
 		greaterThan_4_4 = (RelativeLayout) findViewById(R.id.greaterThan_4_4);
 		greaterThan_4_5 = (RelativeLayout) findViewById(R.id.greaterThan_4_5);
 		greaterThan_4_6 = (RelativeLayout) findViewById(R.id.greaterThan_4_6);
-		
+
 		greaterThan_5_1 = (RelativeLayout) findViewById(R.id.greaterThan_5_1);
 		greaterThan_5_2 = (RelativeLayout) findViewById(R.id.greaterThan_5_2);
 		greaterThan_5_3 = (RelativeLayout) findViewById(R.id.greaterThan_5_3);
 		greaterThan_5_4 = (RelativeLayout) findViewById(R.id.greaterThan_5_4);
 		greaterThan_5_5 = (RelativeLayout) findViewById(R.id.greaterThan_5_5);
 		greaterThan_5_6 = (RelativeLayout) findViewById(R.id.greaterThan_5_6);
-		
+
 		greaterThan_6_1 = (RelativeLayout) findViewById(R.id.greaterThan_6_1);
 		greaterThan_6_2 = (RelativeLayout) findViewById(R.id.greaterThan_6_2);
-		
+
+		rejectButtonLayout = (LinearLayout) findViewById(R.id.rejectButtonLayout);
+		//projectBeginButtonLayout = (RelativeLayout) findViewById(R.id.projectBeginButtonLayout);
+
 	}
 
 }

@@ -1089,15 +1089,17 @@
                     android:background="@drawable/btnbg"
                     android:text="@string/suozhangAudit"
                     android:textColor="@color/white"
-                    android:textSize="24.0sp" />
+                    android:textSize="20.0sp" />
             </RelativeLayout>
             
-            <RelativeLayout
+            <LinearLayout
+                android:id="@+id/rejectButtonLayout"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
                 android:layout_marginBottom="14dp"
-                android:gravity="center" >
+                android:orientation="horizontal"
+                 >
 
                 <Button
                     android:id="@+id/rejectButton"
@@ -1106,18 +1108,26 @@
                     android:layout_centerHorizontal="true"
                     android:background="@drawable/btnbg"
                     android:text="@string/rejectButton"
+                    android:layout_marginLeft="8dp"
                     android:textColor="@color/white"
-                    android:textSize="24.0sp" />
+                    android:textSize="22.0sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
                 <Button
                     android:id="@+id/projectBeginButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginRight="8dp"
                     android:background="@drawable/btnbg"
                     android:text="@string/projectBeginButton"
                     android:textColor="@color/white"
-                    android:textSize="24.0sp" />
-            </RelativeLayout>
+                    android:textSize="22.0sp" />
+                
+            </LinearLayout>
+            
         </LinearLayout>
     </ScrollView>
 

@@ -813,9 +813,9 @@ public class CollectResource {
     }
     
     /**
-     * 抓取任务下达单数据
+     * 
      */
-    public String reviewActiveTask(String taskId) throws AppException {
+    public String doActiveTask(String urlParam) throws AppException {
         String result = null;
         String url = null;
         try {
@@ -824,7 +824,7 @@ public class CollectResource {
             String firstCookie = sharedStore.getString("login_cookies", "");
             uunetWorkServer.addHeader("Cookie", firstCookie);
             uunetWorkServer.setRequestType(RequestType.GET);
-            url = Constant.MAIN_DOMAIN + Constant.INTERFACE_REVIEW_ACTIVETASK + "?id=" + taskId;
+            url = Constant.MAIN_DOMAIN + urlParam;
             String[] results = uunetWorkServer.startSynchronous(url);
             if (results != null) {
                 Logger.d("UrlconPostStreamsynTest code ", results[0]);

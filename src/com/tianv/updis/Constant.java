@@ -248,7 +248,7 @@ public class Constant {
 
     //debug 8081 product 8010
     public static final String MAIN_DOMAIN = "http://phone.updis.cn:8081/rest";
-
+    //public static final String MAIN_DOMAIN = "http://172.30.6.59:8080";
     /**
      * 列表数据接口
      */
@@ -317,7 +317,7 @@ public class Constant {
     /**
      * 所长审批
      */
-    public static final String INTERFACE_REVIEW_ACTIVETASK = "/project/reviewActiveTask";
+    public static final String INTERFACE_REVIEW_ACTIVETASK = "/project/";
     
     /**
      * Preferences Key : load image or not

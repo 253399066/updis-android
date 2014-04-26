@@ -13,10 +13,10 @@ import com.uucun.android.utils.io.IOUtils;
  */
 public class ReviewActiveTask extends BaseTask<Void, Void, String> {
 
-	private String taskId;
-	public ReviewActiveTask(Context context, TaskCallBack<Void, String> taskCallBack,String taskId) {
+	private String urlParam;
+	public ReviewActiveTask(Context context, TaskCallBack<Void, String> taskCallBack,String urlParam) {
         super(taskCallBack, context);
-        this.taskId = taskId;
+        this.urlParam = urlParam;
     }
 
     public void onPreExecute() {
@@ -27,7 +27,7 @@ public class ReviewActiveTask extends BaseTask<Void, Void, String> {
         super.doInBackground(params);
         String result = null;
         try {
-        	result = CollectResource.getInstance(context).reviewActiveTask(this.taskId);
+        	result = CollectResource.getInstance(context).doActiveTask(this.urlParam);
         } catch (AppException e) {
             appException = e;
             String s = IOUtils.exception2String(e);

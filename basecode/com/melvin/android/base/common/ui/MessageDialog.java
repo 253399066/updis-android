@@ -4,11 +4,16 @@ package com.melvin.android.base.common.ui;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.tianv.updis.Constant;
+import com.tianv.updis.R;
 
 /**
  * @author Melvin
@@ -18,11 +23,11 @@ import com.tianv.updis.Constant;
  * @Date 2013-4-9 下午10:34:56
  */
 public class MessageDialog {
-    private String sCaptionClose = "关闭";
+	public String sCaptionClose = "关闭";
 
-    private String sCaptionOk = "确定";
+    public String sCaptionOk = "确定";
 
-    private String sCaptionCancel = "取消";
+    public String sCaptionCancel = "取消";
 
     private int iIcoResourceId = -1;
 
@@ -118,6 +123,44 @@ public class MessageDialog {
                 builder.setSingleChoiceItems(mChioceItems, 0, clicklistener);
             }
         }
+        builder.create().show();
+    }
+    
+    /**
+     * 显示文本框输入对话框
+     *
+     * @param requestCode
+     * @param title
+     * @param message
+     * @param listener      对话框按纽事件监听
+     * @param clicklistener 选项列表监听
+     */
+    public void showEditTextInfo(int requestCode,Context context,String title,IMessageDialogListener listener) {
+
+        Builder builder = createDialogBuilder(title, null);
+        final LayoutInflater factory = LayoutInflater.from(context);
+        final View textEntryView = factory.inflate(R.layout.dialog_edittext, null); 
+        builder.setView(textEntryView);
+        /*if (message != null && !message.equals("")) {
+            builder.setMessage(message);
+        }*/
+        if (listener != null) {
+            //builder.setPositiveButton(sCaptionOk, new DialogOnClickListener(requestCode, 1,
+            //        listener));
+        	builder.setPositiveButton(sCaptionOk, 
+	        	new DialogOnClickListener(requestCode, 1, listener) {
+	                public void onClick(DialogInterface dialog, int whichButton) {
+	                	EditText reject_comment = (EditText) textEntryView.findViewById(R.id.reject_comment);
+	                	showToast(reject_comment.getText().toString());
+	                }
+	            });
+            builder.setNegativeButton(sCaptionCancel, new DialogOnClickListener(requestCode, 2,
+                    listener));
+        } else {
+            builder.setPositiveButton(sCaptionOk, null);
+            builder.setPositiveButton(sCaptionCancel, null);
+        }
+       
         builder.create().show();
     }
 

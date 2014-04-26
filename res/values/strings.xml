@@ -549,6 +549,7 @@
     <string name="rejectButton">打回</string>
     <string name="projectBeginButton">项目启动</string>
     <string name="audit_confirm">确认审批通过么?</string>
+    <string name="projectBegin_confirm">确认项目启动么?</string>
     <!-- 项目下达单 END -->
 
 </resources>
