@@ -15,21 +15,16 @@ import com.uucun.android.sharedstore.SharedStore;
  * @Date 2013-3-24 下午1:36:30
  */
 public class CategoryFragmentAdapter extends UUFragmentPageAdapter {
-    public CategoryFragmentAdapter(Activity activity, String[] content) {
+    public CategoryFragmentAdapter(Activity activity, String[] content,String canViewTender,String isSpecailUser) {
         super(activity, content);
-        SharedStore sharedStore = new SharedStore(activity, null);
         add(new CommonListFragment(activity, Constant.VIEW_HOME_NOTICE));
-        String canViewTender = sharedStore.getString(Constant.UPDIS_STORE_KEY_CANVIEWTENDER, "0");
         if ("1".equals(canViewTender)) {
         	add(new CommonListFragment(activity, Constant.VIEW_HOME_BIDDING));
         }
-        
-        //add(new CommonListFragment(activity, Constant.VIEW_HOME_BIDDING));
         add(new CommonListFragment(activity, Constant.VIEW_HOME_TALK));
         add(new CommonListFragment(activity, Constant.VIEW_HOME_AMATEUR));
 
-        String isSpecailUser = sharedStore.getString(Constant.UPDIS_STORE_KEY_ISSPECIALUSER, "0");
-        if (isSpecailUser.equals("1")) {
+        if ("1".equals(isSpecailUser)) {
             add(new CommonListFragment(activity, Constant.VIEW_PROJECT));
         }
        

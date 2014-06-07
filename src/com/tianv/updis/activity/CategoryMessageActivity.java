@@ -47,7 +47,7 @@ public class CategoryMessageActivity extends BaseFragmentActivity {
         	title[i] = new String();
         	title[i] = (String)titleArray.get(i);
         }
-        mAdapter = new CategoryFragmentAdapter(this, title);
+        mAdapter = new CategoryFragmentAdapter(this, title,canViewTender,isSpecailUser);
         mIndicator = (PageIndicator) findViewById(R.id.indicator);
         mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setAdapter(mAdapter);
