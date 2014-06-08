@@ -7,6 +7,7 @@ import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -87,7 +88,7 @@ public class ActiveTaskActivity extends Activity implements OnClickListener, IMe
 	private ActiveTask activeTask;
 	private ReviewActiveTask reviewActiveTask;
 	private ProgressDialog mProgressDialog;
-	private Button suozhangAudit, rejectButton, projectBeginButton;
+	private Button suozhangAudit, rejectButton, projectBeginButton,zongShiReviewButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +110,7 @@ public class ActiveTaskActivity extends Activity implements OnClickListener, IMe
 		suozhangAudit.setOnClickListener(this);
 		rejectButton.setOnClickListener(this);
 		projectBeginButton.setOnClickListener(this);
+		zongShiReviewButton.setOnClickListener(this);
 	}
 
 	public void showEditTextInfo(int requestCode, Context context, String title, IMessageDialogListener listener) {
@@ -177,17 +179,20 @@ public class ActiveTaskActivity extends Activity implements OnClickListener, IMe
 	@Override
 	public void onClick(View arg0) {
 		switch (arg0.getId()) {
-		case R.id.suozhangAudit:
-			mDialog.showConfirm(AUDIT_CONFIRM_1, getString(R.string.suozhangAudit), getString(R.string.audit_confirm), this);
-			break;
-		case R.id.rejectButton:
-			showEditTextInfo(AUDIT_CONFIRM_2, ActiveTaskActivity.this, getString(R.string.rejectButton), this);
-			break;
-		case R.id.projectBeginButton:
-			mDialog.showConfirm(AUDIT_CONFIRM_3, getString(R.string.projectBeginButton), getString(R.string.projectBegin_confirm), this);
-			break;
+			case R.id.suozhangAudit:
+				mDialog.showConfirm(AUDIT_CONFIRM_1, getString(R.string.suozhangAudit), getString(R.string.audit_confirm), this);
+				break;
+			case R.id.rejectButton:
+				showEditTextInfo(AUDIT_CONFIRM_2, ActiveTaskActivity.this, getString(R.string.rejectButton), this);
+				break;
+			case R.id.projectBeginButton:
+				mDialog.showConfirm(AUDIT_CONFIRM_3, getString(R.string.projectBeginButton), getString(R.string.projectBegin_confirm), this);
+				break;
+			case R.id.zongShiReviewButton:
+				startActivityForResult(new Intent(ActiveTaskActivity.this, ZongShiActiveTaskActivity.class), 11);
+				break;
 		}
-
+		
 	}
 
 	@Override
@@ -574,6 +579,9 @@ public class ActiveTaskActivity extends Activity implements OnClickListener, IMe
 
 		rejectButtonLayout = (LinearLayout) findViewById(R.id.rejectButtonLayout);
 		//projectBeginButtonLayout = (RelativeLayout) findViewById(R.id.projectBeginButtonLayout);
+		
+		
+		zongShiReviewButton = (Button) findViewById(R.id.zongShiReviewButton);//总师室审批
 
 	}
 

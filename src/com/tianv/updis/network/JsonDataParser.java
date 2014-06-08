@@ -319,6 +319,10 @@ public class JsonDataParser {
 						.getString("projectLeadReviewApplyTime"));
 			}
 
+			if (jsonObject.has("showZongShiReviewButton")) {
+				activeTaskModel.setShowZongShiReviewButton(jsonObject
+						.getString("showZongShiReviewButton"));
+			}
 		} catch (JSONException e) {
 			throw e;
 		}

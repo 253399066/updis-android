@@ -48,6 +48,15 @@ public class ActiveTaskModel implements Serializable {
 	private String showProjectLeadReviewAndRejectButton;
 	private String projectLeadReviewer;
 	private String projectLeadReviewApplyTime;
+	private String showZongShiReviewButton;
+
+	public String getShowZongShiReviewButton() {
+		return showZongShiReviewButton;
+	}
+
+	public void setShowZongShiReviewButton(String showZongShiReviewButton) {
+		this.showZongShiReviewButton = showZongShiReviewButton;
+	}
 
 	public String getState() {
 		return state;
@@ -341,8 +350,7 @@ public class ActiveTaskModel implements Serializable {
 		return showProjectLeadReviewAndRejectButton;
 	}
 
-	public void setShowProjectLeadReviewAndRejectButton(
-			String showProjectLeadReviewAndRejectButton) {
+	public void setShowProjectLeadReviewAndRejectButton(String showProjectLeadReviewAndRejectButton) {
 		this.showProjectLeadReviewAndRejectButton = showProjectLeadReviewAndRejectButton;
 	}
 

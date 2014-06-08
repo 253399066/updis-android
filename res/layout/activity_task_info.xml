@@ -1128,6 +1128,42 @@
                 
             </LinearLayout>
             
+            
+            <LinearLayout
+                android:id="@+id/zongShiReviewButtonLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="14dp"
+                android:orientation="horizontal"
+                 >
+
+                <Button
+                    android:id="@+id/zongShiReviewButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/btnbg"
+                    android:text="@string/zongShiReviewButton"
+                    android:layout_marginLeft="8dp"
+                    android:textColor="@color/white"
+                    android:textSize="22.0sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <Button
+                    android:id="@+id/rejectZongShiReviewButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginRight="8dp"
+                    android:background="@drawable/btnbg"
+                    android:text="@string/rejectZongShiReviewButton"
+                    android:textColor="@color/white"
+                    android:textSize="22.0sp" />
+                
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
