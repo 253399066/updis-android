@@ -189,7 +189,9 @@ public class ActiveTaskActivity extends Activity implements OnClickListener, IMe
 				mDialog.showConfirm(AUDIT_CONFIRM_3, getString(R.string.projectBeginButton), getString(R.string.projectBegin_confirm), this);
 				break;
 			case R.id.zongShiReviewButton:
-				startActivityForResult(new Intent(ActiveTaskActivity.this, ZongShiActiveTaskActivity.class), 11);
+				Intent intent = new Intent(ActiveTaskActivity.this, ZongShiActiveTaskActivity.class);
+                intent.putExtra("projectLead", projectLead.getText());
+				startActivityForResult(intent, 11);
 				break;
 		}
 		
@@ -448,7 +450,12 @@ public class ActiveTaskActivity extends Activity implements OnClickListener, IMe
 						zongShiShiReviewApplyTime.setText(getNotBlank(eParam.getZongShiShiReviewApplyTime()));
 
 					}
-
+					try {
+						projectLead.setText(getNotBlank(eParam.getProjectLead()));
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					// ------------------------ >=6
 					if (Integer.parseInt(eParam.getStateId()) >= 6) {
 						greaterThan_6_1.setVisibility(View.VISIBLE);

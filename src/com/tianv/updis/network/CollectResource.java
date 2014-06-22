@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONException;
@@ -812,6 +813,111 @@ public class CollectResource {
         }
     }
     
+    /**
+     * 抓取任务下达单数据
+     */
+    public List fetchProjectTypeListData() throws AppException {
+        String result = null;
+        String url = null;
+        try {
+            UUNetWorkServer uunetWorkServer = new UUNetWorkServer(mContext, ConnectionType.URLCON);
+
+            String firstCookie = sharedStore.getString("login_cookies", "");
+            uunetWorkServer.addHeader("Cookie", firstCookie);
+            uunetWorkServer.setRequestType(RequestType.GET);
+            url = Constant.MAIN_DOMAIN + Constant.FETCH_PROJECT_TYPE_TASK ;
+            String[] results = uunetWorkServer.startSynchronous(url);
+            if (results != null) {
+                Logger.d("UrlconPostStreamsynTest code ", results[0]);
+                Logger.d("UrlconPostStreamsynTest content ", results[1]);
+                result = results[1];
+            }
+            if (result == null) {
+                return null;
+            }
+            return  jsonDataParser.getProjectTypeData(result);
+
+        } catch (ConnectionException e) {
+            throw new AppException(AppException.CONNECTION_CMS_ERROR_CODE, e.getMessage());
+        } catch (JSONException e) {
+            if (result.contains("sessionTimeout")) {
+                throw new AppException(AppException.LOGIN_TIME_OUT, e.getMessage());
+            } else {
+                throw new AppException(AppException.PARSE_DATA_ERROR_CODE, e.getMessage());
+            }
+        } catch (Exception e) {
+            throw new AppException(AppException.UN_KNOW_ERROR_CODE, e.getMessage());
+        }
+    }
+    /**
+     * 抓取任务下达单数据
+     */
+    public List fetchCategoryListData(String projectTypeId) throws AppException {
+        String result = null;
+        String url = null;
+        try {
+            UUNetWorkServer uunetWorkServer = new UUNetWorkServer(mContext, ConnectionType.URLCON);
+
+            String firstCookie = sharedStore.getString("login_cookies", "");
+            uunetWorkServer.addHeader("Cookie", firstCookie);
+            uunetWorkServer.setRequestType(RequestType.GET);
+            url = Constant.MAIN_DOMAIN + Constant.FETCH_CATEGORY_LIST_TASK + projectTypeId ;
+            String[] results = uunetWorkServer.startSynchronous(url);
+            if (results != null) {
+                Logger.d("UrlconPostStreamsynTest code ", results[0]);
+                Logger.d("UrlconPostStreamsynTest content ", results[1]);
+                result = results[1];
+            }
+            if (result == null) {
+                return null;
+            }
+            return  jsonDataParser.getCategoryListData(result);
+
+        } catch (ConnectionException e) {
+            throw new AppException(AppException.CONNECTION_CMS_ERROR_CODE, e.getMessage());
+        } catch (JSONException e) {
+            if (result.contains("sessionTimeout")) {
+                throw new AppException(AppException.LOGIN_TIME_OUT, e.getMessage());
+            } else {
+                throw new AppException(AppException.PARSE_DATA_ERROR_CODE, e.getMessage());
+            }
+        } catch (Exception e) {
+            throw new AppException(AppException.UN_KNOW_ERROR_CODE, e.getMessage());
+        }
+    }
+    public List fetchChiefEngineerListData() throws AppException {
+        String result = null;
+        String url = null;
+        try {
+            UUNetWorkServer uunetWorkServer = new UUNetWorkServer(mContext, ConnectionType.URLCON);
+
+            String firstCookie = sharedStore.getString("login_cookies", "");
+            uunetWorkServer.addHeader("Cookie", firstCookie);
+            uunetWorkServer.setRequestType(RequestType.GET);
+            url = Constant.MAIN_DOMAIN + Constant.FETCH_CHIEF_ENGINEER_LIST_TASK ;
+            String[] results = uunetWorkServer.startSynchronous(url);
+            if (results != null) {
+                Logger.d("UrlconPostStreamsynTest code ", results[0]);
+                Logger.d("UrlconPostStreamsynTest content ", results[1]);
+                result = results[1];
+            }
+            if (result == null) {
+                return null;
+            }
+            return  jsonDataParser.getChiefEngineerListData(result);
+
+        } catch (ConnectionException e) {
+            throw new AppException(AppException.CONNECTION_CMS_ERROR_CODE, e.getMessage());
+        } catch (JSONException e) {
+            if (result.contains("sessionTimeout")) {
+                throw new AppException(AppException.LOGIN_TIME_OUT, e.getMessage());
+            } else {
+                throw new AppException(AppException.PARSE_DATA_ERROR_CODE, e.getMessage());
+            }
+        } catch (Exception e) {
+            throw new AppException(AppException.UN_KNOW_ERROR_CODE, e.getMessage());
+        }
+    }
     /**
      * 
      */

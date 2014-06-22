@@ -323,4 +323,14 @@ public class Constant {
      * Preferences Key : load image or not
      */
     public static final String KEY_NO_IMAGE = "no_load_image_key";
+    
+    /**
+     * 项目下达单接口
+     */
+    public static final String FETCH_PROJECT_TYPE_TASK = "/project/projectTypeList";
+    
+    public static final String FETCH_CATEGORY_LIST_TASK = "/project/categoryList?projectTypeId=";
+    
+    public static final String FETCH_CHIEF_ENGINEER_LIST_TASK = "/project/chiefEngineerList";
+    
 }

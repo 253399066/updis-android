@@ -22,6 +22,7 @@ import com.tianv.updis.model.PersonModel;
 import com.tianv.updis.model.ProjectModel;
 import com.tianv.updis.model.ResourceDetailModel;
 import com.tianv.updis.model.ResourceModel;
+import com.tianv.updis.model.SpinnerData;
 import com.tianv.updis.model.UIUtilities;
 import com.tianv.updis.network.CollectResource.PageFetcher;
 import com.uucun.android.data.query.Select;
@@ -130,6 +131,75 @@ public class JsonDataParser {
 		return loginDataModel;
 	}
 
+	public List getProjectTypeData(String json) throws JSONException {
+		if (json == null || json.trim().equals("")) {
+			return null;
+		}
+		List list = new ArrayList();
+		try {
+			JSONObject jsonObj = new JSONObject(json);
+			JSONArray jsonArray = jsonObj.getJSONArray(JsonConst.DATA);
+			if (jsonArray != null && jsonArray.length() > 0) {
+				int length = jsonArray.length();
+				for (int i = 0; i < length; i++) {
+					JSONObject jsonObject = (JSONObject) jsonArray.opt(i);
+					SpinnerData sd = new SpinnerData(jsonObject.getString("id"),jsonObject.getString("name"));
+					list.add(sd);
+				}
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	public List getCategoryListData(String json) throws JSONException {
+		if (json == null || json.trim().equals("")) {
+			return null;
+		}
+		List list = new ArrayList();
+		try {
+			JSONObject jsonObj = new JSONObject(json);
+			JSONArray jsonArray = jsonObj.getJSONArray(JsonConst.DATA);
+			if (jsonArray != null && jsonArray.length() > 0) {
+				int length = jsonArray.length();
+				for (int i = 0; i < length; i++) {
+					JSONObject jsonObject = (JSONObject) jsonArray.opt(i);
+					SpinnerData sd = new SpinnerData(jsonObject.getString("id"),jsonObject.getString("name"));
+					list.add(sd);
+				}
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	public List getChiefEngineerListData(String json) throws JSONException {
+		if (json == null || json.trim().equals("")) {
+			return null;
+		}
+		List list = new ArrayList();
+		try {
+			JSONObject jsonObj = new JSONObject(json);
+			JSONArray jsonArray = jsonObj.getJSONArray(JsonConst.DATA);
+			if (jsonArray != null && jsonArray.length() > 0) {
+				int length = jsonArray.length();
+				for (int i = 0; i < length; i++) {
+					JSONObject jsonObject = (JSONObject) jsonArray.opt(i);
+					SpinnerData sd = new SpinnerData(jsonObject.getString("id"),jsonObject.getString("name"));
+					list.add(sd);
+				}
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
 	public ActiveTaskModel getActiveTaskData(String json) throws JSONException {
 		if (json == null || json.trim().equals("")) {
 			return null;

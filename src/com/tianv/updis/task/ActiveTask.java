@@ -37,6 +37,7 @@ public class ActiveTask extends BaseTask<Void, Void, ActiveTaskModel> {
         return atm;
     }
 
+    
     public void onProgressUpdate(Void... values) {
         super.onProgressUpdate(values);
     }
