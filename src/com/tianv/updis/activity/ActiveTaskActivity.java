@@ -1,21 +1,25 @@
 package com.tianv.updis.activity;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.net.URLEncoder;
 
-import android.app.Activity;
+import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.melvin.android.base.activity.BaseFragmentActivity;
 import com.melvin.android.base.common.ui.IMessageDialogListener;
 import com.melvin.android.base.common.ui.MessageDialog;
 import com.tianv.updis.AppException;
@@ -26,16 +30,15 @@ import com.tianv.updis.model.ProjectModel;
 import com.tianv.updis.task.ActiveTask;
 import com.tianv.updis.task.ReviewActiveTask;
 import com.tianv.updis.task.TaskCallBack;
-import com.tianv.updis.task.ZongShiReviewActiveTask;
 
 /**
  * Created by lm3515 on 14-1-22.
  */
-public class ActiveTaskActivity extends Activity implements OnClickListener, IMessageDialogListener {
+public class ActiveTaskActivity extends BaseFragmentActivity implements OnClickListener, IMessageDialogListener {
 	// private TextView mProjectNameTv;
 	private int AUDIT_CONFIRM_1 = 10011;
 	private int AUDIT_CONFIRM_2 = 10012;
-	private int AUDIT_CONFIRM_3 = 10013;   
+	private int AUDIT_CONFIRM_3 = 10013;
 	/**
 	 * 页面弹出对话框
 	 */
@@ -84,9 +87,9 @@ public class ActiveTaskActivity extends Activity implements OnClickListener, IMe
 			greaterThan_5_2, greaterThan_5_3, greaterThan_5_4, greaterThan_5_5, greaterThan_5_6, greaterThan_6_1, greaterThan_6_2;//, projectBeginButtonLayout;
 	private LinearLayout rejectButtonLayout;
 	private ActiveTask activeTask;
-	private ZongShiReviewActiveTask reviewActiveTask;
+	private ReviewActiveTask reviewActiveTask;
 	private ProgressDialog mProgressDialog;
-	private Button suozhangAudit, rejectButton, projectBeginButton,zongShiReviewButton;
+	private Button suozhangAudit, rejectButton, projectBeginButton,zongShiReviewButton,rejectZongShiReviewButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -109,8 +112,36 @@ public class ActiveTaskActivity extends Activity implements OnClickListener, IMe
 		rejectButton.setOnClickListener(this);
 		projectBeginButton.setOnClickListener(this);
 		zongShiReviewButton.setOnClickListener(this);
+		rejectZongShiReviewButton.setOnClickListener(this);
 	}
 
+	public void showEditTextInfo(int requestCode, Context context, String title, IMessageDialogListener listener) {
+
+		Builder builder = mDialog.createDialogBuilder(title, null);
+		final LayoutInflater factory = LayoutInflater.from(context);
+		final View textEntryView = factory.inflate(R.layout.dialog_edittext, null);
+		builder.setView(textEntryView);
+		if (listener != null) {
+			builder.setPositiveButton(mDialog.sCaptionOk, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {
+					EditText reject_comment = (EditText) textEntryView.findViewById(R.id.reject_comment);
+					showProgressDialog();
+					ProjectModel pm = (ProjectModel) getIntent().getSerializableExtra(Constant.EXTRA_PROJECTMODEL);
+					String comment =  URLEncoder.encode(reject_comment.getText().toString());
+					String urlParam = Constant.INTERFACE_REVIEW_ACTIVETASK + "projectLeadRejectActiveTask?id=" + pm.getActiveTaskId() + "&comment="
+							+ comment;
+					reviewActiveTask = new ReviewActiveTask(ActiveTaskActivity.this, getProjectRejectActiveTaskResult(), urlParam);
+					reviewActiveTask.execute();
+				}
+			});
+			builder.setNegativeButton(mDialog.sCaptionCancel, new DialogOnClickListener(requestCode, 2, listener));
+		} else {
+			builder.setPositiveButton(mDialog.sCaptionOk, null);
+			builder.setPositiveButton(mDialog.sCaptionCancel, null);
+		}
+
+		builder.create().show();
+	}
 
 	private class DialogOnClickListener implements DialogInterface.OnClickListener {
 
@@ -154,45 +185,89 @@ public class ActiveTaskActivity extends Activity implements OnClickListener, IMe
 				mDialog.showConfirm(AUDIT_CONFIRM_1, getString(R.string.suozhangAudit), getString(R.string.audit_confirm), this);
 				break;
 			case R.id.rejectButton:
-				//showEditTextInfo(AUDIT_CONFIRM_2, ActiveTaskActivity.this, getString(R.string.rejectButton), this);
+				showEditTextInfo(AUDIT_CONFIRM_2, ActiveTaskActivity.this, getString(R.string.rejectButton), this);
 				break;
 			case R.id.projectBeginButton:
 				mDialog.showConfirm(AUDIT_CONFIRM_3, getString(R.string.projectBeginButton), getString(R.string.projectBegin_confirm), this);
 				break;
 			case R.id.zongShiReviewButton:
 				Intent intent = new Intent(ActiveTaskActivity.this, ZongShiActiveTaskActivity.class);
+				ProjectModel pm = (ProjectModel) getIntent().getSerializableExtra(Constant.EXTRA_PROJECTMODEL);
+				intent.putExtra(Constant.EXTRA_PROJECTMODEL, pm);
                 intent.putExtra("projectLead", projectLead.getText());
 				startActivityForResult(intent, 11);
+				break;
+			case R.id.rejectZongShiReviewButton:
+				showProgressDialog();
+				pm = (ProjectModel) getIntent().getSerializableExtra(Constant.EXTRA_PROJECTMODEL);
+				String urlParam = Constant.INTERFACE_REVIEW_ACTIVETASK + 	"zongShiRejectActiveTask?id=" + pm.getActiveTaskId() ;
+				//UIUtilities.showToast(ZongShiActiveTaskActivity.this,urlParam);
+				reviewActiveTask = new ReviewActiveTask(ActiveTaskActivity.this, getProjectBeginActiveTaskResult("打回申请单"), urlParam);
+				reviewActiveTask.execute();
 				break;
 		}
 		
 	}
+	public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            
+            this.finish();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+	private TaskCallBack<Void, String> getProjectBeginActiveTaskResult(final String type) {
+		TaskCallBack<Void, String> taskCallBask = new TaskCallBack<Void, String>() {
+			@Override
+			public void beforeDoingTask() {
 
+			}
+
+			@Override
+			public void doingTask() {
+
+			}
+
+			@Override
+			public void onCancel() {
+
+			}
+
+			@Override
+			public void doingProgress(Void... fParam) {
+			}
+
+			@Override
+			public void endTask(String eParam, AppException appException) {
+				if (mProgressDialog != null && mProgressDialog.isShowing()) {
+					mProgressDialog.dismiss();
+					mProgressDialog = null;
+				}
+				MessageDialog mDialog = new MessageDialog(ActiveTaskActivity.this);
+				if ("1".equals(eParam)) {
+					initView();
+					mDialog.showInfo(type, "提交成功");
+				} else {
+					mDialog.showInfo(type, "提交失败");
+				}
+			}
+		};
+		return taskCallBask;
+	}
 	@Override
 	public void onDialogClickOk(int requestCode) {
 		// TODO Auto-generated method stub
 		if (requestCode == AUDIT_CONFIRM_1) {// 所长审核
 			showProgressDialog();
 			ProjectModel pm = (ProjectModel) getIntent().getSerializableExtra(Constant.EXTRA_PROJECTMODEL);
-			Map<String,String> urlParam = new HashMap<String,String>();
-			urlParam.put("activeTaskId", pm.getActiveTaskId());
-			urlParam.put("projectTypeId", pm.getActiveTaskId());
-			urlParam.put("projectCategoryId", pm.getActiveTaskId());
-			urlParam.put("projectLeadIds", pm.getActiveTaskId());
-			urlParam.put("manageLevelId", pm.getActiveTaskId());
-			urlParam.put("chiefEngineerIds", pm.getActiveTaskId());
-			urlParam.put("projectCategoryElse", pm.getActiveTaskId());
-			String url = "";
-			for (Map.Entry<String, String> entry : urlParam.entrySet()) {
-	            	url += entry.getKey() + "=" + entry.getValue() + "&";
-	        }
-			reviewActiveTask = new ZongShiReviewActiveTask(ActiveTaskActivity.this, getReviewActiveTaskResult(), url);
+			String urlParam = Constant.INTERFACE_REVIEW_ACTIVETASK + "reviewActiveTask?id=" + pm.getActiveTaskId();
+			reviewActiveTask = new ReviewActiveTask(ActiveTaskActivity.this, getReviewActiveTaskResult(), urlParam);
 			reviewActiveTask.execute();
 		} else if (requestCode == AUDIT_CONFIRM_3) {// 项目启动
 			showProgressDialog();
 			ProjectModel pm = (ProjectModel) getIntent().getSerializableExtra(Constant.EXTRA_PROJECTMODEL);
-			String url = "zongShiRejectActiveTask?id=" + pm.getActiveTaskId();
-			reviewActiveTask = new ZongShiReviewActiveTask(ActiveTaskActivity.this, getProjectBeginActiveTaskResult(), url);
+			String urlParam = Constant.INTERFACE_REVIEW_ACTIVETASK + "projectLeadReviewActiveTask?id=" + pm.getActiveTaskId();
+			reviewActiveTask = new ReviewActiveTask(ActiveTaskActivity.this, getProjectBeginActiveTaskResult(), urlParam);
 			reviewActiveTask.execute();
 		}
 	}
@@ -446,7 +521,14 @@ public class ActiveTaskActivity extends Activity implements OnClickListener, IMe
 						projectLeadReviewApplyTime.setText(getNotBlank(eParam.getProjectLeadReviewApplyTime()));
 
 					}
-
+					if("1".equals(eParam.getShowZongShiReviewButton())){
+						zongShiReviewButton.setVisibility(View.VISIBLE);
+						rejectZongShiReviewButton.setVisibility(View.VISIBLE);
+					}
+					else{
+						zongShiReviewButton.setVisibility(View.GONE);
+						rejectZongShiReviewButton.setVisibility(View.GONE);
+					}
 					// showButton; // String 0: 不显示所长审批按钮; 1:显示
 				}
 			}
@@ -571,7 +653,7 @@ public class ActiveTaskActivity extends Activity implements OnClickListener, IMe
 		
 		
 		zongShiReviewButton = (Button) findViewById(R.id.zongShiReviewButton);//总师室审批
-
+		rejectZongShiReviewButton = (Button) findViewById(R.id.rejectZongShiReviewButton);
 	}
 
 }

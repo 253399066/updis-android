@@ -333,6 +333,4 @@ public class Constant {
     
     public static final String FETCH_CHIEF_ENGINEER_LIST_TASK = "/project/chiefEngineerList";
     
-    public static final String FETCH_ZONGSHI_REVIEW_TASK = "/project/";
-    
 }

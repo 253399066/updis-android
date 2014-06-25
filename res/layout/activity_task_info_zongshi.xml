@@ -44,33 +44,36 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/preference_item"
                 android:gravity="center_vertical" >
-               
-                <Spinner
-                    android:id="@+id/category"
-                    android:layout_alignParentRight="true"
+
+                
+				<Spinner
+                    android:id="@+id/projectType"
+                    android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="100dp"
+                    android:layout_marginLeft="2dp"
                     android:padding="8dp"
+                    android:drawSelectorOnTop="true"
                     android:scaleType="matrix"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <Spinner
-                    android:id="@+id/projectType"
+                    android:id="@+id/category"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="100dp"
+                    android:layout_marginLeft="110dp"
                     android:padding="8dp"
-                    android:drawSelectorOnTop="true"
                     android:scaleType="matrix"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </RelativeLayout>
 
             <RelativeLayout
+                
                 android:id="@+id/qitaLayout"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/preference_item"
+                android:visibility="gone"
                 android:gravity="center_vertical" >
 
                 <TextView
@@ -159,32 +162,7 @@
                     android:text="主管总师"
                     android:textColor="#000"
                     android:textSize="17sp" />
-                <TextView
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="100dp"
-                    android:padding="8dp"
-                    android:drawSelectorOnTop="true"
-                    android:scaleType="matrix"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/chiefEngineerLayout2"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/preference_last_item"
-                android:gravity="center_vertical" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text=""
-                    android:textColor="#000"
-                    android:textSize="17sp" />
-
-                <TextView
+				<TextView
                     android:id="@+id/chiefEngineerIds"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
@@ -194,7 +172,9 @@
                     android:text="点击选择"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
+                
             </RelativeLayout>
+            
              <!-- ****************************************** -->
             <LinearLayout
                 android:id="@+id/zongShiReviewButtonLayout"
@@ -202,7 +182,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
                 android:layout_marginBottom="14dp"
-                android:orientation="horizontal"
+                android:gravity="center"
                  >
 
                 <Button
@@ -212,23 +192,10 @@
                     android:layout_centerHorizontal="true"
                     android:background="@drawable/btnbg"
                     android:text="@string/zongShiReviewButton"
-                    android:layout_marginLeft="8dp"
+         
                     android:textColor="@color/white"
                     android:textSize="22.0sp" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-                <Button
-                    android:id="@+id/zongShiRejectButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginRight="8dp"
-                    android:background="@drawable/btnbg"
-                    android:text="@string/rejectZongShiReviewButton"
-                    android:textColor="@color/white"
-                    android:textSize="22.0sp" />
+               
                 
             </LinearLayout>
         </LinearLayout>

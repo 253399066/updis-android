@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -69,6 +70,7 @@ public class ProjectInfoActivity extends Activity {
 		mProjectScaleTv = (TextView) findViewById(R.id.projectScale);
 	}
 
+	
 	public void btn_shake(View v) {
 		String activeTaskId = pm.getActiveTaskId();
 		String imported = pm.getImported();
@@ -81,4 +83,5 @@ public class ProjectInfoActivity extends Activity {
                     R.string.no_active_task);
 		}
 	}
+	
 }
