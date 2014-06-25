@@ -88,7 +88,7 @@ public class ActiveTaskActivity extends Activity implements OnClickListener, IMe
 	private ActiveTask activeTask;
 	private ReviewActiveTask reviewActiveTask;
 	private ProgressDialog mProgressDialog;
-	private Button suozhangAudit, rejectButton, projectBeginButton,zongShiReviewButton,rejectZongShiReviewButton;
+	private Button suozhangAudit, rejectButton, projectBeginButton,zongShiReviewButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +111,6 @@ public class ActiveTaskActivity extends Activity implements OnClickListener, IMe
 		rejectButton.setOnClickListener(this);
 		projectBeginButton.setOnClickListener(this);
 		zongShiReviewButton.setOnClickListener(this);
-		rejectZongShiReviewButton.setOnClickListener(this);
 	}
 
 	public void showEditTextInfo(int requestCode, Context context, String title, IMessageDialogListener listener) {
@@ -191,60 +190,13 @@ public class ActiveTaskActivity extends Activity implements OnClickListener, IMe
 				break;
 			case R.id.zongShiReviewButton:
 				Intent intent = new Intent(ActiveTaskActivity.this, ZongShiActiveTaskActivity.class);
-				ProjectModel pm = (ProjectModel) getIntent().getSerializableExtra(Constant.EXTRA_PROJECTMODEL);
-				intent.putExtra(Constant.EXTRA_PROJECTMODEL, pm);
                 intent.putExtra("projectLead", projectLead.getText());
 				startActivityForResult(intent, 11);
-				break;
-			case R.id.rejectZongShiReviewButton:
-				showProgressDialog();
-				pm = (ProjectModel) getIntent().getSerializableExtra(Constant.EXTRA_PROJECTMODEL);
-				String urlParam = Constant.INTERFACE_REVIEW_ACTIVETASK + 	"zongShiRejectActiveTask?id=" + pm.getActiveTaskId() ;
-				//UIUtilities.showToast(ZongShiActiveTaskActivity.this,urlParam);
-				reviewActiveTask = new ReviewActiveTask(ActiveTaskActivity.this, getProjectBeginActiveTaskResult("打回申请单"), urlParam);
-				reviewActiveTask.execute();
 				break;
 		}
 		
 	}
-	private TaskCallBack<Void, String> getProjectBeginActiveTaskResult(final String type) {
-		TaskCallBack<Void, String> taskCallBask = new TaskCallBack<Void, String>() {
-			@Override
-			public void beforeDoingTask() {
 
-			}
-
-			@Override
-			public void doingTask() {
-
-			}
-
-			@Override
-			public void onCancel() {
-
-			}
-
-			@Override
-			public void doingProgress(Void... fParam) {
-			}
-
-			@Override
-			public void endTask(String eParam, AppException appException) {
-				if (mProgressDialog != null && mProgressDialog.isShowing()) {
-					mProgressDialog.dismiss();
-					mProgressDialog = null;
-				}
-				MessageDialog mDialog = new MessageDialog(ActiveTaskActivity.this);
-				if ("1".equals(eParam)) {
-					initView();
-					mDialog.showInfo(type, "提交成功");
-				} else {
-					mDialog.showInfo(type, "提交失败");
-				}
-			}
-		};
-		return taskCallBask;
-	}
 	@Override
 	public void onDialogClickOk(int requestCode) {
 		// TODO Auto-generated method stub
@@ -512,14 +464,7 @@ public class ActiveTaskActivity extends Activity implements OnClickListener, IMe
 						projectLeadReviewApplyTime.setText(getNotBlank(eParam.getProjectLeadReviewApplyTime()));
 
 					}
-					if("1".equals(eParam.getShowZongShiReviewButton())){
-						zongShiReviewButton.setVisibility(View.VISIBLE);
-						rejectZongShiReviewButton.setVisibility(View.VISIBLE);
-					}
-					else{
-						zongShiReviewButton.setVisibility(View.GONE);
-						rejectZongShiReviewButton.setVisibility(View.GONE);
-					}
+
 					// showButton; // String 0: 不显示所长审批按钮; 1:显示
 				}
 			}
@@ -644,7 +589,7 @@ public class ActiveTaskActivity extends Activity implements OnClickListener, IMe
 		
 		
 		zongShiReviewButton = (Button) findViewById(R.id.zongShiReviewButton);//总师室审批
-		rejectZongShiReviewButton = (Button) findViewById(R.id.rejectZongShiReviewButton);
+
 	}
 
 }
