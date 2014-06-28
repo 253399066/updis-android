@@ -1079,6 +1079,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
                 android:layout_marginBottom="14dp"
+                android:visibility="gone"
                 android:gravity="center" >
 
                 <Button
@@ -1089,6 +1090,7 @@
                     android:background="@drawable/btnbg"
                     android:text="@string/suozhangAudit"
                     android:textColor="@color/white"
+                    android:visibility="gone"
                     android:textSize="20.0sp" />
             </RelativeLayout>
             
@@ -1098,6 +1100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
                 android:layout_marginBottom="14dp"
+                android:visibility="gone"
                 android:orientation="horizontal"
                  >
 
@@ -1135,6 +1138,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
                 android:layout_marginBottom="14dp"
+                android:visibility="gone"
                 android:orientation="horizontal"
                  >
 

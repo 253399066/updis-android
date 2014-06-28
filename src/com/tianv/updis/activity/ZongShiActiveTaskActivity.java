@@ -76,15 +76,6 @@ public class ZongShiActiveTaskActivity extends BaseFragmentActivity implements O
 		initView();
 	}
 
-	public boolean onKeyDown(int keyCode, KeyEvent event)
-    {
-        if(keyCode == KeyEvent.KEYCODE_BACK){
-            
-            this.finish();
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-	
 	private void initView() {
 		
 		// String taskId =
@@ -231,7 +222,14 @@ public class ZongShiActiveTaskActivity extends BaseFragmentActivity implements O
 		// TODO Auto-generated method stub
 
 	}
-
+	public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            
+            this.finish();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 	private TaskCallBack<Void, String> getReviewActiveTaskResult() {
 		TaskCallBack<Void, String> taskCallBask = new TaskCallBack<Void, String>() {
 			@Override
@@ -301,8 +299,7 @@ public class ZongShiActiveTaskActivity extends BaseFragmentActivity implements O
 				MessageDialog mDialog = new MessageDialog(ZongShiActiveTaskActivity.this);
 				if ("1".equals(eParam)) {
 					ProjectModel pm = (ProjectModel) getIntent().getSerializableExtra(Constant.EXTRA_PROJECTMODEL);
-					startActivityForResult(new Intent(ZongShiActiveTaskActivity.this, ActiveTaskActivity.class).putExtra(
-							Constant.EXTRA_PROJECTMODEL, pm), 11);
+				
 					finish();
 				} else {
 					mDialog.showInfo(type, "提交失败");

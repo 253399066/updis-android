@@ -2,6 +2,7 @@ package com.tianv.updis.activity;
 
 import java.net.URLEncoder;
 
+import android.app.Activity;
 import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -19,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.melvin.android.base.activity.BaseFragmentActivity;
 import com.melvin.android.base.common.ui.IMessageDialogListener;
 import com.melvin.android.base.common.ui.MessageDialog;
 import com.tianv.updis.AppException;
@@ -34,7 +34,7 @@ import com.tianv.updis.task.TaskCallBack;
 /**
  * Created by lm3515 on 14-1-22.
  */
-public class ActiveTaskActivity extends BaseFragmentActivity implements OnClickListener, IMessageDialogListener {
+public class ActiveTaskActivity extends Activity implements OnClickListener, IMessageDialogListener {
 	// private TextView mProjectNameTv;
 	private int AUDIT_CONFIRM_1 = 10011;
 	private int AUDIT_CONFIRM_2 = 10012;
@@ -85,7 +85,7 @@ public class ActiveTaskActivity extends BaseFragmentActivity implements OnClickL
 
 	private RelativeLayout greaterThan_3_1, greaterThan_3_2, greaterThan_4_1, greaterThan_4_2, greaterThan_4_3, greaterThan_4_4, greaterThan_4_5, greaterThan_4_6, greaterThan_5_1,
 			greaterThan_5_2, greaterThan_5_3, greaterThan_5_4, greaterThan_5_5, greaterThan_5_6, greaterThan_6_1, greaterThan_6_2;//, projectBeginButtonLayout;
-	private LinearLayout rejectButtonLayout;
+	private LinearLayout rejectButtonLayout,zongShiReviewButtonLayout;
 	private ActiveTask activeTask;
 	private ReviewActiveTask reviewActiveTask;
 	private ProgressDialog mProgressDialog;
@@ -98,7 +98,19 @@ public class ActiveTaskActivity extends BaseFragmentActivity implements OnClickL
 		findViewById();
 		initView();
 	}
-
+	@Override
+    protected void onResume() {
+        super.onResume();
+        initView();
+    }
+    /*public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            
+            this.finish();
+        }
+        return super.onKeyDown(keyCode, event);
+    }*/
 	private void initView() {
 		// String taskId =
 		// (String)getIntent().getSerializableExtra(Constant.EXTRA_ACTIVE_TASK);
@@ -108,11 +120,7 @@ public class ActiveTaskActivity extends BaseFragmentActivity implements OnClickL
 			activeTask = new ActiveTask(ActiveTaskActivity.this, getResourceListTask(), pm.getActiveTaskId());
 			activeTask.execute();
 		}
-		suozhangAudit.setOnClickListener(this);
-		rejectButton.setOnClickListener(this);
-		projectBeginButton.setOnClickListener(this);
-		zongShiReviewButton.setOnClickListener(this);
-		rejectZongShiReviewButton.setOnClickListener(this);
+		
 	}
 
 	public void showEditTextInfo(int requestCode, Context context, String title, IMessageDialogListener listener) {
@@ -198,6 +206,7 @@ public class ActiveTaskActivity extends BaseFragmentActivity implements OnClickL
 				startActivityForResult(intent, 11);
 				break;
 			case R.id.rejectZongShiReviewButton:
+				
 				showProgressDialog();
 				pm = (ProjectModel) getIntent().getSerializableExtra(Constant.EXTRA_PROJECTMODEL);
 				String urlParam = Constant.INTERFACE_REVIEW_ACTIVETASK + 	"zongShiRejectActiveTask?id=" + pm.getActiveTaskId() ;
@@ -208,14 +217,7 @@ public class ActiveTaskActivity extends BaseFragmentActivity implements OnClickL
 		}
 		
 	}
-	public boolean onKeyDown(int keyCode, KeyEvent event)
-    {
-        if(keyCode == KeyEvent.KEYCODE_BACK){
-            
-            this.finish();
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+	
 	private TaskCallBack<Void, String> getProjectBeginActiveTaskResult(final String type) {
 		TaskCallBack<Void, String> taskCallBask = new TaskCallBack<Void, String>() {
 			@Override
@@ -405,23 +407,33 @@ public class ActiveTaskActivity extends BaseFragmentActivity implements OnClickL
 		TaskCallBack<Void, ActiveTaskModel> taskCallBask = new TaskCallBack<Void, ActiveTaskModel>() {
 			@Override
 			public void beforeDoingTask() {
-
+				if (mProgressDialog != null && mProgressDialog.isShowing()) {
+					mProgressDialog.dismiss();
+					mProgressDialog = null;
+				}
 			}
 
 			@Override
 			public void doingTask() {
-
+				if (mProgressDialog != null && mProgressDialog.isShowing()) {
+					mProgressDialog.dismiss();
+					mProgressDialog = null;
+				}
 			}
 
 			@Override
 			public void onCancel() {
-
+				if (mProgressDialog != null && mProgressDialog.isShowing()) {
+					mProgressDialog.dismiss();
+					mProgressDialog = null;
+				}
 			}
 
 			@Override
 			public void doingProgress(Void... fParam) {
-				if (fParam != null) {
-
+				if (mProgressDialog != null && mProgressDialog.isShowing()) {
+					mProgressDialog.dismiss();
+					mProgressDialog = null;
 				}
 			}
 
@@ -457,12 +469,18 @@ public class ActiveTaskActivity extends BaseFragmentActivity implements OnClickL
 					duoFangHeTong.setText(getNotBlankBoolean(eParam.getDuoFangHeTong()));// 是
 																							// 否
 
-					if ("0".equals(eParam.getShowButton())) {
+					if ("1".equals(eParam.getShowButton())) {
+						suozhangAudit.setVisibility(View.VISIBLE);
+					}
+					else{
 						suozhangAudit.setVisibility(View.GONE);
 					}
-					if ("0".equals(eParam.getShowProjectLeadReviewAndRejectButton())) {
-						rejectButtonLayout.setVisibility(View.GONE);
+					if ("1".equals(eParam.getShowProjectLeadReviewAndRejectButton())) {
+						rejectButtonLayout.setVisibility(View.VISIBLE);
 						//projectBeginButtonLayout.setVisibility(View.GONE);
+					}
+					else{
+						rejectButtonLayout.setVisibility(View.GONE);
 					}
 
 					// ------------------------ >=3
@@ -473,7 +491,7 @@ public class ActiveTaskActivity extends BaseFragmentActivity implements OnClickL
 						directorReviewerApplyTime.setText(getNotBlank(eParam.getDirectorReviewerApplyTime()));
 
 					}
-
+					
 					// ------------------------ >=4
 					if (Integer.parseInt(eParam.getStateId()) >= 4) {
 						greaterThan_4_1.setVisibility(View.VISIBLE);
@@ -522,12 +540,10 @@ public class ActiveTaskActivity extends BaseFragmentActivity implements OnClickL
 
 					}
 					if("1".equals(eParam.getShowZongShiReviewButton())){
-						zongShiReviewButton.setVisibility(View.VISIBLE);
-						rejectZongShiReviewButton.setVisibility(View.VISIBLE);
+						zongShiReviewButtonLayout.setVisibility(View.VISIBLE);
 					}
 					else{
-						zongShiReviewButton.setVisibility(View.GONE);
-						rejectZongShiReviewButton.setVisibility(View.GONE);
+						zongShiReviewButtonLayout.setVisibility(View.GONE);
 					}
 					// showButton; // String 0: 不显示所长审批按钮; 1:显示
 				}
@@ -650,10 +666,15 @@ public class ActiveTaskActivity extends BaseFragmentActivity implements OnClickL
 
 		rejectButtonLayout = (LinearLayout) findViewById(R.id.rejectButtonLayout);
 		//projectBeginButtonLayout = (RelativeLayout) findViewById(R.id.projectBeginButtonLayout);
-		
+		zongShiReviewButtonLayout = (LinearLayout) findViewById(R.id.zongShiReviewButtonLayout);
 		
 		zongShiReviewButton = (Button) findViewById(R.id.zongShiReviewButton);//总师室审批
 		rejectZongShiReviewButton = (Button) findViewById(R.id.rejectZongShiReviewButton);
+		suozhangAudit.setOnClickListener(this);
+		rejectButton.setOnClickListener(this);
+		projectBeginButton.setOnClickListener(this);
+		zongShiReviewButton.setOnClickListener(this);
+		rejectZongShiReviewButton.setOnClickListener(this);
 	}
 
 }
