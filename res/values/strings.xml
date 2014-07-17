@@ -501,7 +501,7 @@
     <string name="projectScale">项目规模</string>
     <string name="projectActiveTask">项目下达单</string>
     <string name="version_maohao">版本:%1$s</string>
-
+	<string name="search_projet_leader">搜索项目负责人</string>
     <!-- 项目下达单 BEGIN -->
     <string name="partner">甲方</string>
     <string name="partnerType">甲方类型</string>
@@ -542,6 +542,7 @@
 	<string name="zongShiShiReviewApplyTime">签字时间</string>
 	<string name="projectLeadReviewer">负责人签字</string>
 	<string name="projectLeadReviewApplyTime">签字时间</string>
+    <string name="search_project_leader">搜索负责人</string>
     
     <string name="showButton">不显示所长审批按钮</string>
     <string name="no_active_task">没有项目下达单</string>

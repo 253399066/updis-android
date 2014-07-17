@@ -146,6 +146,11 @@
             android:name="com.tianv.updis.activity.ZongShiActiveTaskActivity"
             android:configChanges="keyboardHidden|keyboard|orientation"
             android:label="@string/app_name"></activity>
+        <activity
+            android:name="com.tianv.updis.activity.SearchProjectLeaderActive"
+            android:configChanges="keyboardHidden|keyboard|orientation"
+            android:label="@string/app_name"></activity>
+        
         <!-- Required SDK核心功能 -->
         <activity
             android:name="cn.jpush.android.ui.PushActivity"

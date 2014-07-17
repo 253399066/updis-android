@@ -125,6 +125,8 @@ public class ZongShiActiveTaskActivity extends BaseFragmentActivity implements O
 			} 
 		}); 
 		
+		projectManager.setOnClickListener(this);
+		
 		zongShiReviewButton.setOnClickListener(this);
 		
 		chiefEngineerIds.setOnClickListener(this);
@@ -201,6 +203,10 @@ public class ZongShiActiveTaskActivity extends BaseFragmentActivity implements O
 			case R.id.chiefEngineerIds:
 				chiefEngineerListTask = new ChiefEngineerListTask(ZongShiActiveTaskActivity.this, getChiefEngineerList());
                 chiefEngineerListTask.execute();
+				break;
+			case R.id.projectManager:
+				Intent intent = new Intent( ZongShiActiveTaskActivity.this,SearchProjectLeaderActive.class);
+				startActivityForResult(intent, 11);
 				break;
 		}
 		
