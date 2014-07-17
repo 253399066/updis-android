@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_2"
+    android:orientation="vertical" >
+
+    <include layout="@layout/top_navbar_layout" />
+
+    <LinearLayout
+        android:id="@+id/search_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/search_banner"
+            android:layout_width="fill_parent"
+            android:layout_height="50.0dip" >
+
+            <LinearLayout
+                android:id="@+id/search_btn_id"
+                android:layout_width="60.0dip"
+                android:layout_height="33.299988dip"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="3.0dip"
+                android:background="@drawable/btn_search"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <ImageButton
+                    android:id="@+id/button_search"
+                    android:layout_width="27.0dip"
+                    android:layout_height="27.0dip"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/search_button_selector"
+                    android:src="@drawable/search_icon" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/search_pannel"
+                android:layout_width="fill_parent"
+                android:layout_height="33.299988dip"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="5.0dip"
+                android:layout_marginLeft="10.0dip"
+                android:layout_marginRight="1.0dip"
+                android:layout_marginTop="5.0dip"
+                android:layout_toLeftOf="@id/search_btn_id"
+                android:background="@drawable/inputbox_bg" >
+
+                <ImageView
+                    android:id="@+id/button_close"
+                    android:layout_width="23.0dip"
+                    android:layout_height="23.0dip"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/search_close" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/input_search_query"
+                    android:layout_width="fill_parent"
+                    android:layout_height="33.299988dip"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:layout_toLeftOf="@id/button_close"
+                    android:background="@null"
+                    android:hint="@string/search_project_leader"
+                    android:imeOptions="actionDone"
+                    android:maxLength="50"
+                    android:paddingRight="20.0dip"
+                    android:singleLine="true"
+                    android:textSize="14.0sp" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/list_container"
+        android:layout_below="@id/search_container"
+        android:orientation="vertical" >
+
+        <ListView
+            android:id="@+id/projectLeaderList"
+            android:layout_width="match_parent"
+           	android:layout_height="0dp"
+           	android:layout_weight="1" 
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dip" >
+            <TextView
+            android:id="@+id/selectedProjetLeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="80dp"
+            android:textColor="#FFFFFFFF"
+            android:text="sdfsdf" />
+        </RelativeLayout>
+    </LinearLayout>
+
+   
+
+</LinearLayout>
