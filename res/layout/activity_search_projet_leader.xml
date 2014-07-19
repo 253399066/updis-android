@@ -48,8 +48,10 @@
                 android:layout_marginLeft="10.0dip"
                 android:layout_marginRight="1.0dip"
                 android:layout_marginTop="5.0dip"
+                android:focusable="true"  
+   				android:focusableInTouchMode="true"
                 android:layout_toLeftOf="@id/search_btn_id"
-                android:background="@drawable/inputbox_bg" >
+                 >
 
                 <ImageView
                     android:id="@+id/button_close"
@@ -91,17 +93,27 @@
            	android:layout_weight="1" 
             />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="20dip" >
-            <TextView
-            android:id="@+id/selectedProjetLeader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="80dp"
-            android:textColor="#FFFFFFFF"
-            android:text="sdfsdf" />
-        </RelativeLayout>
+         <!-- ****************************************** -->
+            <LinearLayout
+                android:id="@+id/zongShiReviewButtonLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="14dp"
+                android:gravity="center"
+                 >
+
+                <TextView
+                    android:id="@+id/search_sesult_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/white"
+                    android:text=""
+                    android:textSize="17sp" />
+               
+                
+            </LinearLayout>
     </LinearLayout>
 
    
