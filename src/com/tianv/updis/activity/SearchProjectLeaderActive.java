@@ -6,6 +6,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -35,7 +37,9 @@ public class SearchProjectLeaderActive extends Activity implements OnClickListen
 	private ProgressDialog mProgressDialog;
 	private ProjectLeaderSearchTask projectLeaderSearchTask;
 	private TextView searchResultView;
+	private String projectLeadIds = "";
 	private List searchResultList;
+	private Button searchOk,searchCancel;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -50,10 +54,13 @@ public class SearchProjectLeaderActive extends Activity implements OnClickListen
 		buttonClose  = (ImageView) findViewById(R.id.button_close);
 		listView  = (ListView) findViewById(R.id.projectLeaderList);
 		inputSearchQuery = (AutoCompleteTextView) findViewById(R.id.input_search_query);
+		searchOk = (Button) findViewById(R.id.search_ok);
+		searchCancel = (Button) findViewById(R.id.search_cancel);
 		
 		buttonSearch.setOnClickListener(this);
 		buttonClose.setOnClickListener(this);
-		
+		searchOk.setOnClickListener(this);
+		searchCancel.setOnClickListener(this);
 		listView.setOnItemClickListener(new ClickEvent());
 			
 	}
@@ -64,10 +71,13 @@ public class SearchProjectLeaderActive extends Activity implements OnClickListen
 			ListView listView = (ListView)arg0;
 			SpinnerData spinerData = (SpinnerData) listView.getItemAtPosition(position); 
 			String searchResult = searchResultView.getText().toString();
+			String projectLeadIdsTemp =  projectLeadIds;
 			if(!searchResult.equals("")){
 				searchResult += ",";
+				projectLeadIdsTemp +=",";
 			}
 			searchResult += spinerData.getText();
+			projectLeadIdsTemp += spinerData.getValue();
 			if(searchResultList != null){
 				for(int i = 0; i < searchResultList.size(); i++){
 					SpinnerData temp = (SpinnerData)searchResultList.get(i);
@@ -78,6 +88,7 @@ public class SearchProjectLeaderActive extends Activity implements OnClickListen
 					}
 				}
 			}
+			projectLeadIds = projectLeadIdsTemp;
 			searchResultView.setText(searchResult);
 		}
 	}
@@ -104,6 +115,18 @@ public class SearchProjectLeaderActive extends Activity implements OnClickListen
 			break;
 		case R.id.button_close:
 			inputSearchQuery.setText("");
+			break;
+		case R.id.search_ok:
+			if(!"".equals(searchResultView.getText().toString())){
+				Intent intent = new Intent(); 
+	            intent.putExtra("searchProjectLeader", searchResultView.getText().toString()); 
+	            intent.putExtra("projectLeadIds", projectLeadIds); 
+	            setResult(RESULT_OK, intent); 
+			}
+            finish(); 
+			break;
+		case R.id.search_cancel:
+			this.finish();
 			break;
 		}
 	}

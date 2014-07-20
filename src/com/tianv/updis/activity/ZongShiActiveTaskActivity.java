@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -64,6 +65,7 @@ public class ZongShiActiveTaskActivity extends BaseFragmentActivity implements O
 	private ChiefEngineerListTask chiefEngineerListTask;
 	private EditText qitaEdit;
 	private TextView projectManager;
+	private String projectLeadIds = null;
 	private TextView chiefEngineerIds;
 	private List selectedTemp = new ArrayList();
 	private List chiefEngineerList= new ArrayList();
@@ -183,6 +185,10 @@ public class ZongShiActiveTaskActivity extends BaseFragmentActivity implements O
 						"&projectTypeId=" + projectTypeValue + 
 						"&projectCategoryId=" + categoryValue + 
 						"&manageLevelId=" + projectManageLevelValue;
+						if(projectLeadIds != null){
+							urlParam +="&projectLeadIds="+ projectLeadIds;
+						}
+					    
 						for(int i = 0; i < selectedTemp.size(); i++){
 							urlParam +="&chiefEngineerIds=" +  (String)selectedTemp.get(i) ;
 						}
@@ -211,7 +217,15 @@ public class ZongShiActiveTaskActivity extends BaseFragmentActivity implements O
 		}
 		
 	}
-
+	 @Override 
+	    protected void onActivityResult(int requestCode, int resultCode, Intent data) { 
+	        // TODO Auto-generated method stub 
+	        super.onActivityResult(requestCode, resultCode, data); 
+	        if(requestCode == 11 && data.getStringExtra("searchProjectLeader") != null){ 
+	        	projectManager.setText(data.getStringExtra("searchProjectLeader")); 
+	        	projectLeadIds = data.getStringExtra("projectLeadIds");
+	        } 
+	    } 
 	@Override
 	public void onDialogClickOk(int requestCode) {
 		

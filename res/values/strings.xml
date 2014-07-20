@@ -549,6 +549,8 @@
     <string name="suozhangAudit">所长审批通过</string>
     <string name="rejectButton">打回</string>
     <string name="zongShiReviewButton">审批通过</string>
+    <string name="searchOk">确定</string>
+    <string name="searchCancel">取消</string>
     <string name="rejectZongShiReviewButton">打回申请单</string>
     <string name="projectBeginButton">项目启动</string>
     <string name="audit_confirm">确认审批通过么?</string>
