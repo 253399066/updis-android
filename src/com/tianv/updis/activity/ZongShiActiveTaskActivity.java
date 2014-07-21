@@ -221,7 +221,7 @@ public class ZongShiActiveTaskActivity extends BaseFragmentActivity implements O
 	    protected void onActivityResult(int requestCode, int resultCode, Intent data) { 
 	        // TODO Auto-generated method stub 
 	        super.onActivityResult(requestCode, resultCode, data); 
-	        if(requestCode == 11 && data.getStringExtra("searchProjectLeader") != null){ 
+	        if(requestCode == 11 && data != null && data.getStringExtra("searchProjectLeader") != null){ 
 	        	projectManager.setText(data.getStringExtra("searchProjectLeader")); 
 	        	projectLeadIds = data.getStringExtra("projectLeadIds");
 	        } 

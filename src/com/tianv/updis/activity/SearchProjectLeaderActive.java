@@ -8,6 +8,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -31,7 +33,6 @@ import com.tianv.updis.task.TaskCallBack;
 public class SearchProjectLeaderActive extends Activity implements OnClickListener, IMessageDialogListener {
 
 	private ListView listView;
-	private ImageButton buttonSearch;
 	private ImageView buttonClose;
 	private AutoCompleteTextView inputSearchQuery;
 	private ProgressDialog mProgressDialog;
@@ -39,7 +40,8 @@ public class SearchProjectLeaderActive extends Activity implements OnClickListen
 	private TextView searchResultView;
 	private String projectLeadIds = "";
 	private List searchResultList;
-	private Button searchOk,searchCancel;
+	private Button searchOk, searchCancel;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -49,39 +51,67 @@ public class SearchProjectLeaderActive extends Activity implements OnClickListen
 	}
 
 	private void findViewById() {
-		searchResultView  = (TextView) findViewById(R.id.search_sesult_view);
-		buttonSearch  = (ImageButton) findViewById(R.id.button_search);
-		buttonClose  = (ImageView) findViewById(R.id.button_close);
-		listView  = (ListView) findViewById(R.id.projectLeaderList);
+		searchResultView = (TextView) findViewById(R.id.search_sesult_view);
+		buttonClose = (ImageView) findViewById(R.id.button_close);
+		listView = (ListView) findViewById(R.id.projectLeaderList);
 		inputSearchQuery = (AutoCompleteTextView) findViewById(R.id.input_search_query);
 		searchOk = (Button) findViewById(R.id.search_ok);
 		searchCancel = (Button) findViewById(R.id.search_cancel);
-		
-		buttonSearch.setOnClickListener(this);
+
+		// buttonSearch.setOnClickListener(this);
+		inputSearchQuery.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				showProgressDialog();
+				String keyWord = "";
+				try {
+					keyWord = URLEncoder.encode(inputSearchQuery.getText().toString(), "utf-8");
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				String urlParam = Constant.INTERFACE_REVIEW_ACTIVETASK + "searchProjectLeader?name=" + keyWord;
+				projectLeaderSearchTask = new ProjectLeaderSearchTask(SearchProjectLeaderActive.this, getProjectLeaderSearchTaskResult(), urlParam);
+				projectLeaderSearchTask.execute();
+			}
+
+		});
+
 		buttonClose.setOnClickListener(this);
 		searchOk.setOnClickListener(this);
 		searchCancel.setOnClickListener(this);
 		listView.setOnItemClickListener(new ClickEvent());
-			
+
 	}
+
 	private class ClickEvent implements OnItemClickListener {
 
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
-			ListView listView = (ListView)arg0;
-			SpinnerData spinerData = (SpinnerData) listView.getItemAtPosition(position); 
+			ListView listView = (ListView) arg0;
+			SpinnerData spinerData = (SpinnerData) listView.getItemAtPosition(position);
 			String searchResult = searchResultView.getText().toString();
-			String projectLeadIdsTemp =  projectLeadIds;
-			if(!searchResult.equals("")){
+			String projectLeadIdsTemp = projectLeadIds;
+			if (!searchResult.equals("")) {
 				searchResult += ",";
-				projectLeadIdsTemp +=",";
+				projectLeadIdsTemp += ",";
 			}
 			searchResult += spinerData.getText();
 			projectLeadIdsTemp += spinerData.getValue();
-			if(searchResultList != null){
-				for(int i = 0; i < searchResultList.size(); i++){
-					SpinnerData temp = (SpinnerData)searchResultList.get(i);
-					if(temp.getValue().equals(spinerData.getValue())){
+			if (searchResultList != null) {
+				for (int i = 0; i < searchResultList.size(); i++) {
+					SpinnerData temp = (SpinnerData) searchResultList.get(i);
+					if (temp.getValue().equals(spinerData.getValue())) {
 						searchResultList.remove(i);
 						ArrayAdapter<String> adapter = new ArrayAdapter<String>(SearchProjectLeaderActive.this, android.R.layout.simple_expandable_list_item_1, searchResultList);
 						listView.setAdapter(adapter);
@@ -92,6 +122,7 @@ public class SearchProjectLeaderActive extends Activity implements OnClickListen
 			searchResultView.setText(searchResult);
 		}
 	}
+
 	private void initView() {
 
 		// setContentView(listView);
@@ -100,30 +131,17 @@ public class SearchProjectLeaderActive extends Activity implements OnClickListen
 	@Override
 	public void onClick(View arg0) {
 		switch (arg0.getId()) {
-		case R.id.button_search:
-			showProgressDialog();
-			String keyWord = "";
-			try {
-				keyWord = URLEncoder.encode(inputSearchQuery.getText().toString(), "utf-8");
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			String urlParam = Constant.INTERFACE_REVIEW_ACTIVETASK + "searchProjectLeader?name=" + keyWord;
-			projectLeaderSearchTask = new ProjectLeaderSearchTask(SearchProjectLeaderActive.this, getProjectLeaderSearchTaskResult(), urlParam);
-			projectLeaderSearchTask.execute();
-			break;
 		case R.id.button_close:
 			inputSearchQuery.setText("");
 			break;
 		case R.id.search_ok:
-			if(!"".equals(searchResultView.getText().toString())){
-				Intent intent = new Intent(); 
-	            intent.putExtra("searchProjectLeader", searchResultView.getText().toString()); 
-	            intent.putExtra("projectLeadIds", projectLeadIds); 
-	            setResult(RESULT_OK, intent); 
+			if (!"".equals(searchResultView.getText().toString())) {
+				Intent intent = new Intent();
+				intent.putExtra("searchProjectLeader", searchResultView.getText().toString());
+				intent.putExtra("projectLeadIds", projectLeadIds);
+				setResult(RESULT_OK, intent);
 			}
-            finish(); 
+			finish();
 			break;
 		case R.id.search_cancel:
 			this.finish();
