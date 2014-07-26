@@ -72,7 +72,7 @@ public class SearchProjectLeaderActive extends Activity implements OnClickListen
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				showProgressDialog();
+				//showProgressDialog();
 				String keyWord = "";
 				try {
 					keyWord = URLEncoder.encode(inputSearchQuery.getText().toString(), "utf-8");
